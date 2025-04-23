@@ -72,6 +72,17 @@ public class Comment {
         this.updatedAt = updatedAt;
     }
 
+    public Comment() {
+
+    }
+
+    public Comment(String id, String body, User author, String createdAt, String updatedAt) {
+        this.id = id;
+        this.body = body;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -68,6 +68,17 @@ public class User {
         this.webUrl = webUrl;
     }
 
+    public User() {
+
+    }
+
+    public User(String id, String username, String name, String avatarUrl, String webUrl) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+        this.webUrl = webUrl;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

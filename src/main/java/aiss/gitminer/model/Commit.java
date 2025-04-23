@@ -125,6 +125,21 @@ public class Commit {
         this.webUrl = webUrl;
     }
 
+    public Commit() {
+
+    }
+
+    public Commit(String id, String title, String message, String authorName, String authorEmail, String authoredDate, String webUrl) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.authorName = authorName;
+        this.authorEmail = authorEmail;
+        this.authoredDate = authoredDate;
+        this.webUrl = webUrl;
+
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
