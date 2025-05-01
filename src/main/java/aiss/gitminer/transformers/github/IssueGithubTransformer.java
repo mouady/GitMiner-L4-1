@@ -30,7 +30,6 @@ public class IssueGithubTransformer {
 
     public static Issue transformToIssue(IssueGithub issueGithub, Integer maxPages) {
         return new Issue(issueGithub.getId(),
-                "",
                 issueGithub.getTitle(),
                 issueGithub.getBody(),
                 issueGithub.getState(),
@@ -41,8 +40,6 @@ public class IssueGithubTransformer {
                 UserGithubTransformer.transformToUser(issueGithub.getUser()),
                 UserGithubTransformer.transformToUser(issueGithub.getAssignee()),
                 null,
-                null,
-                issueGithub.getUrl(),
                 getCommentsFromIssue(issueGithub, maxPages));
     }
 

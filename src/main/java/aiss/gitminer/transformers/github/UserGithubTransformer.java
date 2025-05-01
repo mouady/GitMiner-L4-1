@@ -10,7 +10,7 @@ public class UserGithubTransformer {
         if(userGithub != null) {
             res = new User(userGithub.getId(),
                     userGithub.getLogin(),
-                    "", // No hay name en github
+                    null, // No hay name en github
                     userGithub.getAvatarUrl(),
                     userGithub.getUrl()
             );

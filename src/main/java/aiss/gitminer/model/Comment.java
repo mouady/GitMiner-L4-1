@@ -73,7 +73,6 @@ public class Comment {
     }
 
     public Comment() {
-
     }
 
     public Comment(String id, String body, User author, String createdAt, String updatedAt) {
@@ -83,6 +82,7 @@ public class Comment {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
