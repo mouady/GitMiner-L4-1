@@ -14,9 +14,8 @@ public class ProjectsController {
 
     @Autowired
     ProjectRepository projectRepository;
-
-    @ResponseStatus(HttpStatus.CREATED) //201
     @PostMapping("/projects")
+    @ResponseStatus(HttpStatus.CREATED) //201
     public Project create(@Valid @RequestBody Project project) {
         return projectRepository.save(new Project(project.getId(),project.getName(),
                 project.getWebUrl(),project.getCommits(),project.getIssues()));
