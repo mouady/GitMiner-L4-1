@@ -16,7 +16,7 @@ public class ProjectsController {
     ProjectRepository projectRepository;
 
     @ResponseStatus(HttpStatus.CREATED) //201
-    @PostMapping
+    @PostMapping("/projects")
     public Project create(@Valid @RequestBody Project project) {
         return projectRepository.save(new Project(project.getId(),project.getName(),
                 project.getWebUrl(),project.getCommits(),project.getIssues()));
