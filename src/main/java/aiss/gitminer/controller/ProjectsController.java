@@ -4,6 +4,7 @@ import aiss.gitminer.exception.ProjectNotFoundException;
 import aiss.gitminer.repository.ProjectRepository;
 import aiss.gitminer.model.Project;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,7 +37,7 @@ public class ProjectsController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/projects")
-    public Project create(@Valid @RequestBody Project project) {
+    public Project create(@Parameter(description = "Project to be inserted") @Valid @RequestBody Project project) {
         return projectRepository.save(new Project(project.getId(),project.getName(),
                 project.getWebUrl(),project.getCommits(),project.getIssues()));
     }
@@ -53,7 +54,9 @@ public class ProjectsController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("projects/{id}")
-    public void update(@Valid @RequestBody Project updatedProject, @PathVariable String id) throws ProjectNotFoundException {
+    public void update(@Parameter(description = "Id of the project to be updated and the updates" )
+                           @Valid @RequestBody Project updatedProject, @PathVariable String id)
+                            throws ProjectNotFoundException {
         Optional<Project> projectData=projectRepository.findById(id);
 
         if(projectData.isPresent()) {

@@ -40,7 +40,8 @@ public class CommitsController {
             @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
     })
     @GetMapping("/commits/{id}")
-    public Commit getCommit(@Parameter(description = "id of the commit to be searched")@PathVariable String id) throws CommitNotFoundException {
+    public Commit getCommit(@Parameter(description = "id of the commit to be searched")
+                                @PathVariable String id) throws CommitNotFoundException {
         Optional<Commit> commit = commitRepository.findById(id);
         if (commit.isPresent()) {
             return commit.get();
