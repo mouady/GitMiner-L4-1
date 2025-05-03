@@ -5,6 +5,7 @@ import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.repository.IssueRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ public class IssuesController {
             @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
     })
     @GetMapping("/issues/{id}")
-    public Issue getIssue(@PathVariable String id) throws IssueNotFoundException {
+    public Issue getIssue(@Parameter(description = "id of the issue to be searched")@PathVariable String id) throws IssueNotFoundException {
         Optional<Issue> issue = issueRepository.findById(id);
         if (issue.isPresent()) {
             return issue.get();
@@ -85,7 +86,7 @@ public class IssuesController {
     }
 
     @GetMapping("issues/{id}/comments")
-    public List<Comment> getIssueComments(@PathVariable String id) throws IssueNotFoundException {
+    public List<Comment> getIssueComments(@Parameter(description = "id of the issue whose commits we search")@PathVariable String id) throws IssueNotFoundException {
         return getIssue(id).getComments(); }
 
 }

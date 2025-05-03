@@ -6,6 +6,7 @@ import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.CommitRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ public class CommitsController {
             @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
     })
     @GetMapping("/commits/{id}")
-    public Commit getCommit(@PathVariable String id) throws CommitNotFoundException {
+    public Commit getCommit(@Parameter(description = "id of the commit to be searched")@PathVariable String id) throws CommitNotFoundException {
         Optional<Commit> commit = commitRepository.findById(id);
         if (commit.isPresent()) {
             return commit.get();
