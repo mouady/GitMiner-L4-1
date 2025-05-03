@@ -60,7 +60,6 @@ public class IssuesController {
     })
     @GetMapping("/issues")
     public List<Issue> getAllIssues(@RequestParam(required = false) String title,
-                                    @RequestParam(required = false) String state,
                                     @RequestParam(required = false) String order,
                                     @RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "3") int size) {
@@ -76,14 +75,10 @@ public class IssuesController {
 
         Page<Issue> pageProjects;
 
-        if(title == null && state == null)
+        if(title == null)
             pageProjects=issueRepository.findAll(paging);
-        else {
-            if(title == null)
-                pageProjects =issueRepository.findByState(state,paging);
             else
                 pageProjects =issueRepository.findByTitle(title,paging);
-        }
 
         return pageProjects.getContent();
 
