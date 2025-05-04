@@ -1,9 +1,7 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.CommitNotFoundException;
-import aiss.gitminer.exception.IssueNotFoundException;
 import aiss.gitminer.model.Commit;
-import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.CommitRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @Tag(name="Commit",description = "Commit extracted from a Project")

@@ -37,9 +37,9 @@ public class ProjectsController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/projects")
-    public Project create(@Parameter(description = "Project to be inserted") @Valid @RequestBody Project project) {
-        return projectRepository.save(new Project(project.getId(),project.getName(),
-                project.getWebUrl(),project.getCommits(),project.getIssues()));
+    public void create(@Parameter(description = "Project to be inserted") @Valid @RequestBody Project project) {
+        projectRepository.save(new Project(project.getId(), project.getName(),
+                project.getWebUrl(), project.getCommits(), project.getIssues()));
     }
 
     @Operation(
@@ -55,7 +55,7 @@ public class ProjectsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("projects/{id}")
     public void update(@Parameter(description = "Id of the project to be updated and the updates" )
-                           @Valid @RequestBody Project updatedProject, @PathVariable String id)
+                           @PathVariable String id,@Valid @RequestBody Project updatedProject)
                             throws ProjectNotFoundException {
         Optional<Project> projectData=projectRepository.findById(id);
 
