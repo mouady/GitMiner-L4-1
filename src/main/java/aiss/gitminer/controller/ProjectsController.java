@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -66,6 +67,12 @@ public class ProjectsController {
     public void create(@Parameter(description = "Project to be inserted") @Valid @RequestBody Project project) {
         projectRepository.save(new Project(project.getId(), project.getName(),
                 project.getWebUrl(), project.getCommits(), project.getIssues()));
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/projects/{id}")
+    public void delete(@PathVariable String id) {
+        projectRepository.deleteById(id.trim());
     }
 
     @Operation(
