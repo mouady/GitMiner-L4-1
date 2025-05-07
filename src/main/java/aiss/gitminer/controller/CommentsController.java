@@ -1,6 +1,9 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.CommentNotFoundException;
+import aiss.gitminer.exception.IssueNotFoundException;
 import aiss.gitminer.model.Comment;
+import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.github.CommentGithub;
 import aiss.gitminer.repository.CommentRepository;
 import aiss.gitminer.services.github.CommentGithubService;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/gitminer")
@@ -20,8 +24,12 @@ public class CommentsController {
     CommentRepository commentRepository;
 
     @GetMapping("/comments/{id}")
-    public Comment getComment(@PathVariable String id) {
-        return commentRepository.findById(id).orElse(null);
+    public Comment getComment(@PathVariable String id) throws CommentNotFoundException {
+        Optional<Comment> comment = commentRepository.findById(id);
+        if (comment.isPresent()) {
+            return comment.get();
+        }
+        throw new CommentNotFoundException();
     }
 
     @GetMapping("/comments")
