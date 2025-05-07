@@ -41,7 +41,7 @@ public class IssuesController {
     })
     @GetMapping("/issues/{id}")
     public Issue getIssue(@Parameter(description = "id of the issue to be searched")
-                              @PathVariable String id) throws IssueNotFoundException {
+                          @PathVariable String id) throws IssueNotFoundException {
         Optional<Issue> issue = issueRepository.findById(id);
         if (issue.isPresent()) {
             return issue.get();
@@ -61,6 +61,8 @@ public class IssuesController {
     @GetMapping("/issues")
     public List<Issue> getAllIssues(@RequestParam(required = false) String title,
                                     @RequestParam(required = false) String order,
+                                    @RequestParam(required = false) String state,
+                                    @RequestParam(required = false) String authorId,
                                     @RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "3") int size) {
         Pageable paging;
@@ -75,10 +77,16 @@ public class IssuesController {
 
         Page<Issue> pageProjects;
 
-        if(title == null)
+        if(title == null && state == null && authorId == null )
             pageProjects=issueRepository.findAll(paging);
-            else
+        else {
+            if(title == null && authorId == null)
+                pageProjects =issueRepository.findByState(state,paging);
+            else if(state == null && authorId == null)
                 pageProjects =issueRepository.findByTitle(title,paging);
+            else
+                pageProjects = issueRepository.findByAuthorId(authorId,paging);
+        }
 
         return pageProjects.getContent();
 
@@ -87,7 +95,7 @@ public class IssuesController {
 
     @GetMapping("issues/{id}/comments")
     public List<Comment> getIssueComments(@Parameter(description = "id of the issue whose commits we search")
-                                              @PathVariable String id) throws IssueNotFoundException {
+                                          @PathVariable String id) throws IssueNotFoundException {
         return getIssue(id).getComments(); }
 
 }
