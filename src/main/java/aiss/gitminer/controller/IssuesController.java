@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @Tag(name= "Issue",description="Issue extracted from a Project")
 @RestController
 @RequestMapping("/gitminer")
@@ -59,28 +60,16 @@ public class IssuesController {
                     ,mediaType = "application/json")})
     })
     @GetMapping("/issues")
-    public List<Issue> getAllIssues(@RequestParam(required = false) String title,
-                                    @RequestParam(required = false) String order,
-                                    @RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "3") int size) {
-        Pageable paging;
+    public List<Issue> getAllIssues(@RequestParam(required = false) String title) {
 
-        if(order != null) {
-            if(order.startsWith("-"))
-                paging = PageRequest.of(page, size, Sort.by(order.substring(1)).descending());
-            else
-                paging= PageRequest.of(page,size,Sort.by(order).ascending());
-        }else
-            paging=PageRequest.of(page,size);
-
-        Page<Issue> pageProjects;
+        List<Issue> pageProjects;
 
         if(title == null)
-            pageProjects=issueRepository.findAll(paging);
+            pageProjects=issueRepository.findAll();
             else
-                pageProjects =issueRepository.findByTitle(title,paging);
+                pageProjects =issueRepository.findByTitle(title);
 
-        return pageProjects.getContent();
+        return pageProjects;
 
 
     }
