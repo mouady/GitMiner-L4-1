@@ -64,7 +64,7 @@ public class IssuesController {
                                     @RequestParam(required = false) String state,
                                     @RequestParam(required = false) String authorId,
                                     @RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "3") int size) {
+                                    @RequestParam(defaultValue = "50") int size) {
         Pageable paging;
 
         if(order != null) {
