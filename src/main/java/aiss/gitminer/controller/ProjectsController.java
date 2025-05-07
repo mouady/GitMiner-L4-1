@@ -12,11 +12,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -69,11 +71,14 @@ public class ProjectsController {
                 project.getWebUrl(), project.getCommits(), project.getIssues()));
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/projects/{id}")
-    public void delete(@PathVariable String id) {
-        projectRepository.deleteById(id.trim());
-    }
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        try {
+            projectRepository.deleteById(id.trim());
+            return ResponseEntity.noContent().build();
+        }catch(EmptyResultDataAccessException ex) {
+            return ResponseEntity.notFound().build();
+        }}
 
     @Operation(
             summary= "update a Project",
