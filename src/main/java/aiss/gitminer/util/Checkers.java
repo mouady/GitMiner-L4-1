@@ -9,6 +9,8 @@ public class Checkers {
      * @param token the token to check
      * @return true if the token is a valid GitHub token, false otherwise
      */
+
+
     public static boolean isTokenGithub(String token) {
         Predicate<String> isTokenGithub = t -> t != null && t.startsWith("ghp_");
         return isTokenGithub.test(token);
