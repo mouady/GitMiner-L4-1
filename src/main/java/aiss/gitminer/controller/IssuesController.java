@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class IssuesController {
                                     @RequestParam(required = false) String state,
                                     @RequestParam(required = false) String authorId,
                                     @RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "50") int size) {
+                                    @RequestParam(defaultValue = "50") int size) throws IssueNotFoundException {
         Pageable paging;
 
         if(order != null) {
@@ -77,19 +78,24 @@ public class IssuesController {
 
         Page<Issue> pageProjects;
 
-        if(title == null && state == null && authorId == null )
-            pageProjects=issueRepository.findAll(paging);
-        else {
+        if(title == null && state == null && authorId == null) {
+            pageProjects = issueRepository.findAll(paging);
+        } else {
             if(title == null && authorId == null)
-                pageProjects =issueRepository.findByState(state,paging);
+                pageProjects = issueRepository.findByState(state, paging);
             else if(state == null && authorId == null)
-                pageProjects =issueRepository.findByTitle(title,paging);
+                pageProjects = issueRepository.findByTitle(title, paging);
+            else if(authorId != null)
+                pageProjects = issueRepository.findByAuthorId(authorId, paging);
             else
-                pageProjects = issueRepository.findByAuthorId(authorId,paging);
+                throw new IssueNotFoundException("No se han encontrado ninguna Issue con los criterios dados.");
+        }
+
+        if (authorId != null && pageProjects.isEmpty()) {
+            throw new IssueNotFoundException("No se han encontrado ninguna Issue para --> " + authorId);
         }
 
         return pageProjects.getContent();
-
 
     }
 
