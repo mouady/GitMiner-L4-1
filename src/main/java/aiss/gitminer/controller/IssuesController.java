@@ -59,14 +59,18 @@ public class IssuesController {
                     ,mediaType = "application/json")})
     })
     @GetMapping("/issues")
-    public List<Issue> getAllIssues(@RequestParam(required = false) String title) {
+    public List<Issue> getAllIssues(@RequestParam(required = false) String title,
+                                    @RequestParam(required = false) String state) {
 
         List<Issue> pageProjects;
 
-        if(title == null)
+        if(title == null && state == null)
             pageProjects=issueRepository.findAll();
             else
-                pageProjects =issueRepository.findByTitle(title);
+                if(state == null)
+                    pageProjects = issueRepository.findByTitle(title);
+                else
+                    pageProjects = issueRepository.findByState(state);
 
         return pageProjects;
 
