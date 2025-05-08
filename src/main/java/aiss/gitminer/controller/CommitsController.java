@@ -51,5 +51,9 @@ public class CommitsController {
     public List<Commit> getAllCommits() {
         return commitRepository.findAll();
     }
+    @GetMapping("/commits/email/{email}")
+    public List<Commit> getCommitsByEmail(@PathVariable String email) {
+        return commitRepository.findByAuthorEmail(email);
+    }
 
 }
