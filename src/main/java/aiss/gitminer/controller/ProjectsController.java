@@ -34,23 +34,12 @@ public class ProjectsController {
     @Autowired
     ProjectRepository projectRepository;
 
-    @Operation(
-            summary= "Insert a Project",
-            description = "From git it extract a project and insert it in GitMiner",
-            tags = { "projects","post"}
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "201",content = {@Content(schema=@Schema(implementation = Project.class)
-                    ,mediaType = "application/json")}),
-            @ApiResponse(responseCode = "400",content = {@Content(schema = @Schema()) })
-    })
-
+// GET ALL
     @GetMapping("/projects")
     public List<Project> getAllProjects(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(required = false) String order,
                                         @RequestParam(defaultValue = "3") int size) {
         Pageable paging;
-
         if (order != null) {
             if (order.startsWith("-"))
                 paging = PageRequest.of(page, size, Sort.by(order.substring(1)).descending());
@@ -64,6 +53,17 @@ public class ProjectsController {
         return pageProjects.getContent();
     }
 
+//POST
+    @Operation(
+            summary= "Insert a Project",
+            description = "From git it extract a project and insert it in GitMiner",
+            tags = { "projects","post"}
+    )
+    @ApiResponses({
+             @ApiResponse(responseCode = "201",content = {@Content(schema=@Schema(implementation = Project.class)
+                     ,mediaType = "application/json")}),
+             @ApiResponse(responseCode = "400",content = {@Content(schema = @Schema()) })
+    })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/projects")
     public void create(@Parameter(description = "Project to be inserted") @Valid @RequestBody Project project) {
@@ -71,15 +71,31 @@ public class ProjectsController {
                 project.getWebUrl(), project.getCommits(), project.getIssues()));
     }
 
-    @DeleteMapping("/projects/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        try {
-            projectRepository.deleteById(id.trim());
-            return ResponseEntity.noContent().build();
-        }catch(EmptyResultDataAccessException ex) {
-            return ResponseEntity.notFound().build();
-        }}
+//DELETE
+    @Operation(
+            summary = "Delete a project",
+            description = "Delete a project of GitMiner",
+            tags = {"projects", "delete"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",content = {@Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "400",content = {@Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
+    })
 
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+     @DeleteMapping("/projects/{id}")
+     public ResponseEntity<Void> delete(@Parameter (description = "Id of the project to be deleted")
+                                        @PathVariable String id) {
+         try {
+             projectRepository.deleteById(id.trim());
+             return ResponseEntity.noContent().build();
+         }catch(EmptyResultDataAccessException ex) {
+             return ResponseEntity.notFound().build();
+         }
+     }
+
+//UPDATE
     @Operation(
             summary= "update a Project",
             description = "Update a Project by specifying its id and whose data is passed",
@@ -94,19 +110,19 @@ public class ProjectsController {
     @PutMapping("projects/{id}")
     public void update(@Parameter(description = "Id of the project to be updated and the updates" )
                        @PathVariable String id,@Valid @RequestBody Project updatedProject)
-            throws ProjectNotFoundException {
-        Optional<Project> projectData=projectRepository.findById(id);
+                       throws ProjectNotFoundException {
 
-        if(projectData.isPresent()) {
+         Optional<Project> projectData=projectRepository.findById(id);
+         if(projectData.isPresent()) {
             Project _project = projectData.get();
             _project.setName(updatedProject.getName());
             _project.setWebUrl((updatedProject.getWebUrl()));
             _project.setCommits(updatedProject.getCommits());
             _project.setIssues(updatedProject.getIssues());
             projectRepository.save(_project);
-        }else{
+         }else{
             throw new ProjectNotFoundException();
-        }
+         }
     }
 
 }

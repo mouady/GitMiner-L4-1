@@ -29,6 +29,7 @@ public class IssuesController {
     @Autowired
     IssueRepository issueRepository;
 
+//GET
     @Operation(
             summary = "Retrieve an Issue by Id",
             description = "Get an Issue object by specifying its id",
@@ -49,6 +50,7 @@ public class IssuesController {
         throw new IssueNotFoundException();
     }
 
+//GET ALL & FIND BY STATE AND TITLE
     @Operation(
             summary = "Retrieve a list of issues",
             description = "Get a list of issues",
@@ -77,6 +79,7 @@ public class IssuesController {
 
     }
 
+//GET Issue's Comments
     @GetMapping("issues/{id}/comments")
     public List<Comment> getIssueComments(@Parameter(description = "id of the issue whose commits we search")
                                               @PathVariable String id) throws IssueNotFoundException {

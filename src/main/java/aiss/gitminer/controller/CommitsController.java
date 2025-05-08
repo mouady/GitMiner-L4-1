@@ -26,25 +26,26 @@ public class CommitsController {
     @Autowired
     CommitRepository commitRepository;
 
-    @Operation(
-            summary = "Retrieve a Commit by Id",
-            description = "Get a Commit object by specifying its id",
-            tags = {"commits","get"}
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Commit.class)
-                    ,mediaType = "application/json")}),
-            @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
-    })
-    @GetMapping("/commits/{id}")
-    public Commit getCommit(@Parameter(description = "id of the commit to be searched")
-                                @PathVariable String id) throws CommitNotFoundException {
-        Optional<Commit> commit = commitRepository.findById(id);
-        if (commit.isPresent()) {
-            return commit.get();
+    //GET
+        @Operation(
+                summary = "Retrieve a Commit by Id",
+                description = "Get a Commit object by specifying its id",
+                tags = {"commits","get"}
+        )
+        @ApiResponses({
+                @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Commit.class)
+                        ,mediaType = "application/json")}),
+                @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
+        })
+        @GetMapping("/commits/{id}")
+        public Commit getCommit(@Parameter(description = "id of the commit to be searched")
+                                    @PathVariable String id) throws CommitNotFoundException {
+            Optional<Commit> commit = commitRepository.findById(id);
+            if (commit.isPresent()) {
+                return commit.get();
+            }
+            throw new CommitNotFoundException();
         }
-        throw new CommitNotFoundException();
-    }
 
 
 }

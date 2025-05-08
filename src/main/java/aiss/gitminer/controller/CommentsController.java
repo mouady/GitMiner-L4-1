@@ -23,6 +23,7 @@ public class CommentsController {
     @Autowired
     CommentRepository commentRepository;
 
+//GET
     @GetMapping("/comments/{id}")
     public Comment getComment(@PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> comment = commentRepository.findById(id);
@@ -32,6 +33,7 @@ public class CommentsController {
         throw new CommentNotFoundException();
     }
 
+//GET ALL
     @GetMapping("/comments")
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
