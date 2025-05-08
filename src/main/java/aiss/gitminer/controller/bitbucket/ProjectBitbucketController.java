@@ -67,22 +67,4 @@ public class ProjectBitbucketController {
         }catch(EmptyResultDataAccessException ex) {
             return ResponseEntity.notFound().build();
         }}
-
-    public List<Commit> getAllCommits(@RequestParam(defaultValue="0") int page,
-                                      @RequestParam(required = false) String order,
-                                      @RequestParam(defaultValue = "3") int size) {
-        Pageable paging;
-
-        if (order != null) {
-            if (order.startsWith("-"))
-                paging = PageRequest.of(page, size, Sort.by(order.substring(1)).descending());
-            else
-                paging = PageRequest.of(page, size, Sort.by(order).ascending());
-        } else
-            paging = PageRequest.of(page, size);
-
-        Page<Commit> pageCommits;
-        pageCommits = projectRepository.findById(id).get
-        return pageCommits.getContent();
-    }
 }
