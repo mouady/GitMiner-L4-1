@@ -1,9 +1,6 @@
 package aiss.gitminer.controller.bitbucket;
 
-import aiss.gitminer.model.Commit;
-import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Project;
-import aiss.gitminer.model.bitbucket.RepositoryBitbucket;
 import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

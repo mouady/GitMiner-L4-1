@@ -1,7 +1,7 @@
 package aiss.gitminer.transformers.bitbucket.users;
 
 import aiss.gitminer.model.User;
-import aiss.gitminer.model.bitbucket.Reporter;
+import aiss.gitminer.model.bitbucket.esclave.users.Reporter;
 
 public class ReporterBitbucketTransformer {
 

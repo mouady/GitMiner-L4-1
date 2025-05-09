@@ -1,12 +1,11 @@
 package aiss.gitminer.services.bitbucket;
 
-import aiss.gitminer.model.bitbucket.RepositoryBitbucket;
+import aiss.gitminer.model.bitbucket.esclave.RepositoryBitbucket;
 import aiss.gitminer.model.github.RepositoryGithub;
 import aiss.gitminer.util.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import aiss.gitminer.util.Checkers;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;

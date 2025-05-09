@@ -1,8 +1,7 @@
 package aiss.gitminer.transformers.bitbucket;
 
 import aiss.gitminer.model.Commit;
-import aiss.gitminer.model.bitbucket.CommitBitbucket;
-import aiss.gitminer.model.github.CommitGithub;
+import aiss.gitminer.model.bitbucket.esclave.CommitBitbucket;
 
 import java.util.List;
 
