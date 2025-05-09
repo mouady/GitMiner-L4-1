@@ -1,8 +1,7 @@
-package aiss.gitminer.transformers.bitbucket;
+package aiss.gitminer.transformers.bitbucket.users;
 
 import aiss.gitminer.model.User;
 import aiss.gitminer.model.bitbucket.Reporter;
-import aiss.gitminer.model.bitbucket.UserBitbucket;
 
 public class ReporterBitbucketTransformer {
 
@@ -11,7 +10,8 @@ public class ReporterBitbucketTransformer {
 
         user.setId(bitbucketReporter.getAccountId());
         user.setName(bitbucketReporter.getDisplayName());
-        user.setAvatarUrl(null);
+        // Lo mas parecido al url del avatar
+        user.setAvatarUrl(bitbucketReporter.getLinks().getHtml().getHref());
 
 
         return user;

@@ -2,6 +2,7 @@ package aiss.gitminer.transformers.bitbucket;
 
 import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.bitbucket.IssueBitbucket;
+import aiss.gitminer.transformers.bitbucket.users.ReporterBitbucketTransformer;
 
 public class IssueBitbucketTransformer {
 
@@ -10,11 +11,14 @@ public class IssueBitbucketTransformer {
 
         issue.setId(bitbucketIssue.getId().toString());
         issue.setTitle(bitbucketIssue.getTitle());
-        issue.setState(bitbucketIssue.getState());
-        if (bitbucketIssue.getReporter() != null)
-            issue.setAuthor(ReporterBitbucketTransformer.transform(bitbucketIssue.getReporter()));
-        issue.setCreatedAt(bitbucketIssue.getCreatedOn());
         issue.setDescription(bitbucketIssue.getContent().getRaw() != null ? bitbucketIssue.getContent().getRaw() : "");
+        issue.setState(bitbucketIssue.getState());
+        issue.setCreatedAt(bitbucketIssue.getCreatedOn());
+        issue.setUpdatedAt(bitbucketIssue.getUpdatedOn());
+        issue.setClosedAt(null);
+        issue.setAuthor(ReporterBitbucketTransformer.transform(bitbucketIssue.getReporter()));
+
+
 
         return issue;
     }

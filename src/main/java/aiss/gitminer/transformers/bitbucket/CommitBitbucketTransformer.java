@@ -10,13 +10,13 @@ public class CommitBitbucketTransformer {
 
     public static Commit transformToCommit(CommitBitbucket commitBitbucket) {
         return new Commit(commitBitbucket.getHash(),
-                null, // No tiene sentido title en este caso
+                commitBitbucket.getSummary().getRaw(),
                 commitBitbucket.getMessage(),
-                commitBitbucket.getAuthor().getRaw(),
-                null,
+                commitBitbucket.getAuthor().getUser().getDisplayName(),
+                null, // no lo proporciona
                 commitBitbucket.getDate(),
                 // * NOTA
-                commitBitbucket.getLinks().toString()
+                commitBitbucket.getLinks().getSelf().getHref()
                 );
 
         /*
@@ -30,8 +30,8 @@ public class CommitBitbucketTransformer {
          */
     }
 
-    public static List<Commit> transformToCommits(List<CommitBitbucket> commitBitbuckets) {
-        return commitBitbuckets.stream()
+    public static List<Commit> transformToCommits(List<CommitBitbucket> commitBitbucket) {
+        return commitBitbucket.stream()
                 .map(CommitBitbucketTransformer::transformToCommit)
                 .toList();
     }

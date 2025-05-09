@@ -1,4 +1,4 @@
-package aiss.gitminer.transformers.bitbucket;
+package aiss.gitminer.transformers.bitbucket.users;
 
 import aiss.gitminer.model.User;
 import aiss.gitminer.model.bitbucket.UserBitbucket;
