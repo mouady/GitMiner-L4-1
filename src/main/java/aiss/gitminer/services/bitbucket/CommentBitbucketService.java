@@ -21,8 +21,6 @@ public class CommentBitbucketService {
         List<CommentValue> allComments = new ArrayList<>();
 
         HttpHeaders headers = new HttpHeaders();
-        // Si tu API requiere auth, descomenta:
-        // headers.setBearerAuth(Environment.BITBUCKET_TOKEN);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         String url = commentsUrl;

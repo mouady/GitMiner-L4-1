@@ -1,15 +1,12 @@
 
-package aiss.gitminer.model.bitbucket.bs;
+package aiss.gitminer.model.bitbucket.esclave.users;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import aiss.gitminer.model.bitbucket.bs.User;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -17,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "raw",
     "user"
 })
-@Generated("jsonschema2pojo")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Author {
 
     @JsonProperty("type")

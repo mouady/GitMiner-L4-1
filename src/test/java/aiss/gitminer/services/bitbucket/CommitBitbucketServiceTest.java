@@ -21,7 +21,7 @@ class CommitBitbucketServiceTest {
     @Test
     void getAllCommits() {
 
-        List<CommitBitbucket> commitsBitbucket = service.getAllCommits("gentlero","bitbucket-api", null, null);
+        List<CommitBitbucket> commitsBitbucket = service.getAllCommits("gentlero","bitbucket-api", null, 20);
         for (CommitBitbucket commitBitbucket : commitsBitbucket) {
 
             // Notese que usamos el transformer

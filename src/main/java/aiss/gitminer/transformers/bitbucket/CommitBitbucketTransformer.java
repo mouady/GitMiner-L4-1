@@ -11,7 +11,7 @@ public class CommitBitbucketTransformer {
         return new Commit(commitBitbucket.getHash(),
                 commitBitbucket.getSummary().getRaw(),
                 commitBitbucket.getMessage(),
-                commitBitbucket.getAuthor().getUser().getNickname(),
+                commitBitbucket.getAuthor().getRaw(),
                 null, // no lo proporciona
                 commitBitbucket.getDate(),
                 // * NOTA

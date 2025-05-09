@@ -4,9 +4,9 @@ package aiss.gitminer.model.bitbucket.esclave;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
 
 import aiss.gitminer.model.bitbucket.bs.*;
+import aiss.gitminer.model.bitbucket.esclave.users.Author;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
