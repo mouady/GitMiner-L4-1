@@ -35,6 +35,15 @@ public class ProjectsController {
     ProjectRepository projectRepository;
 
 // GET ALL
+    @Operation(
+            summary = "Retrieve a list of projects",
+            description = "Get the list of projects",
+            tags = {"issues","get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
+                    ,mediaType = "application/json")})
+    })
     @GetMapping("/projects")
     public List<Project> getAllProjects(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(required = false) String order,
@@ -97,7 +106,7 @@ public class ProjectsController {
 
 //UPDATE
     @Operation(
-            summary= "update a Project",
+            summary= "Update a Project",
             description = "Update a Project by specifying its id and whose data is passed",
             tags = { "projects","put"}
     )

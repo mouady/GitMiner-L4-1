@@ -53,7 +53,7 @@ public class IssuesController {
 //GET ALL & FIND BY STATE AND TITLE
     @Operation(
             summary = "Retrieve a list of issues",
-            description = "Get a list of issues",
+            description = "Get the list of issues and you can filter by title, state and authorId",
             tags = {"issues","get"}
     )
     @ApiResponses({
@@ -98,10 +98,19 @@ public class IssuesController {
 
         return pageProjects.getContent();
 
-
     }
 
 //GET Issue's Comments
+    @Operation(
+            summary = "Retrieve an Issue comments",
+            description = "Get all Issue's comments by specifying its id",
+            tags = {"issues","get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
+                    ,mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
+    })
     @GetMapping("issues/{id}/comments")
     public List<Comment> getIssueComments(@Parameter(description = "id of the issue whose commits we search")
                                           @PathVariable String id) throws IssueNotFoundException {
