@@ -1,7 +1,6 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.ProjectNotFoundException;
-import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.ProjectRepository;
 import aiss.gitminer.model.Project;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -69,6 +67,16 @@ public class ProjectsController {
     public void create(@Parameter(description = "Project to be inserted") @Valid @RequestBody Project project) {
         projectRepository.save(new Project(project.getId(), project.getName(),
                 project.getWebUrl(), project.getCommits(), project.getIssues()));
+    }
+
+    @GetMapping("/projects/{id}")
+    public Project getProject(@Parameter(description = "id of the project to be searched")
+                            @PathVariable String id) throws ProjectNotFoundException {
+        Optional<Project> project = projectRepository.findById(id);
+        if (project.isPresent()) {
+            return project.get();
+        }
+        throw new ProjectNotFoundException();
     }
 
     @DeleteMapping("/projects/{id}")

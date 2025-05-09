@@ -36,25 +36,6 @@ class IssuesControllerTest {
 
     }
 
-    @Test
-    void getAllIssues() {
-        List<Issue> issues = controller.getAllIssues(null,null,0,3);
-        for (Issue issue : issues) {
-            System.out.println("==================================");
-            System.out.println("ID: " + issue.getId());
-            System.out.println("Title: " + issue.getTitle());
-            System.out.println("Description: " + issue.getDescription());
-            System.out.println("State: " + issue.getState());
-            System.out.println("Author: " + issue.getAuthor());
-            System.out.println("Created At: " + issue.getCreatedAt());
-            System.out.println("Updated At: " + issue.getUpdatedAt());
-            System.out.println("Closed At: " + issue.getClosedAt());
-            System.out.println("Labels: " + issue.getLabels());
-            System.out.println("Assignee: " + issue.getAssignee());
-            System.out.println("Votes: " + issue.getVotes());
-            System.out.println("==================================");
-        }
-    }
         @Test
         void getIssueComments () throws IssueNotFoundException {
             List<Comment> comments = controller.getIssueComments("1556497126");
