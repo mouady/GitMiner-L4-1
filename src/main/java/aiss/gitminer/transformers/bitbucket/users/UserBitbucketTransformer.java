@@ -9,7 +9,7 @@ public class UserBitbucketTransformer {
         User user = new User();
 
         user.setId(bitbucketUser.getAccountId());
-        user.setName(bitbucketUser.getDisplayName());
+        user.setName(bitbucketUser.getUsername());
         user.setAvatarUrl(bitbucketUser.getLinks().getAvatar().getHref());
 
 

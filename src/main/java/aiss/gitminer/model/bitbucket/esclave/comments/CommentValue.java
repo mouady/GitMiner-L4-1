@@ -3,7 +3,6 @@ package aiss.gitminer.model.bitbucket.esclave.comments;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 
 import aiss.gitminer.model.bitbucket.esclave.IssueBitbucket;
 import aiss.gitminer.model.bitbucket.esclave.links.Links__3;
@@ -22,7 +21,7 @@ import com.fasterxml.jackson.annotation.*;
     "links"
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Value {
+public class CommentValue {
 
     @JsonProperty("type")
     private String type;
@@ -31,7 +30,7 @@ public class Value {
     @JsonProperty("created_on")
     private String createdOn;
     @JsonProperty("updated_on")
-    private Object updatedOn;
+    private String updatedOn;
     @JsonProperty("content")
     private Content content;
     @JsonProperty("user")
@@ -74,12 +73,12 @@ public class Value {
     }
 
     @JsonProperty("updated_on")
-    public Object getUpdatedOn() {
+    public String getUpdatedOn() {
         return updatedOn;
     }
 
     @JsonProperty("updated_on")
-    public void setUpdatedOn(Object updatedOn) {
+    public void setUpdatedOn(String updatedOn) {
         this.updatedOn = updatedOn;
     }
 

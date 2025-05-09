@@ -9,7 +9,7 @@ public class ReporterBitbucketTransformer {
         User user = new User();
 
         user.setId(bitbucketReporter.getAccountId());
-        user.setName(bitbucketReporter.getDisplayName());
+        user.setName(bitbucketReporter.getNickname());
         // Lo mas parecido al url del avatar
         user.setAvatarUrl(bitbucketReporter.getLinks().getHtml().getHref());
 

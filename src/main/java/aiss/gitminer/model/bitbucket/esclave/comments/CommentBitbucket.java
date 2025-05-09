@@ -4,7 +4,6 @@ package aiss.gitminer.model.bitbucket.esclave.comments;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.*;
 
@@ -19,7 +18,7 @@ import com.fasterxml.jackson.annotation.*;
 public class CommentBitbucket {
 
     @JsonProperty("values")
-    private List<Value> values;
+    private List<CommentValue> values;
     @JsonProperty("pagelen")
     private Integer pagelen;
     @JsonProperty("size")
@@ -30,12 +29,12 @@ public class CommentBitbucket {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("values")
-    public List<Value> getValues() {
+    public List<CommentValue> getValues() {
         return values;
     }
 
     @JsonProperty("values")
-    public void setValues(List<Value> values) {
+    public void setValues(List<CommentValue> values) {
         this.values = values;
     }
 
