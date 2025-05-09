@@ -62,19 +62,41 @@ public class IssuesController {
     })
     @GetMapping("/issues")
     public List<Issue> getAllIssues(@RequestParam(required = false) String title,
-                                    @RequestParam(required = false) String state) {
+                                    @RequestParam(required = false) String order,
+                                    @RequestParam(required = false) String state,
+                                    @RequestParam(required = false) String authorId,
+                                    @RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "50") int size) throws IssueNotFoundException {
+        Pageable paging;
 
-        List<Issue> pageProjects;
-
-        if(title == null && state == null)
-            pageProjects=issueRepository.findAll();
+        if(order != null) {
+            if(order.startsWith("-"))
+                paging = PageRequest.of(page, size, Sort.by(order.substring(1)).descending());
             else
-                if(state == null)
-                    pageProjects = issueRepository.findByTitle(title);
-                else
-                    pageProjects = issueRepository.findByState(state);
+                paging= PageRequest.of(page,size,Sort.by(order).ascending());
+        }else
+            paging=PageRequest.of(page,size);
 
-        return pageProjects;
+        Page<Issue> pageProjects;
+
+        if(title == null && state == null && authorId == null) {
+            pageProjects = issueRepository.findAll(paging);
+        } else {
+            if(title == null && authorId == null)
+                pageProjects = issueRepository.findByState(state, paging);
+            else if(state == null && authorId == null)
+                pageProjects = issueRepository.findByTitle(title, paging);
+            else if(authorId != null)
+                pageProjects = issueRepository.findByAuthorId(authorId, paging);
+            else
+                throw new IssueNotFoundException("No se han encontrado ninguna Issue con los criterios dados.");
+        }
+
+        if (authorId != null && pageProjects.isEmpty()) {
+            throw new IssueNotFoundException("No se han encontrado ninguna Issue para --> " + authorId);
+        }
+
+        return pageProjects.getContent();
 
 
     }
@@ -82,7 +104,7 @@ public class IssuesController {
 //GET Issue's Comments
     @GetMapping("issues/{id}/comments")
     public List<Comment> getIssueComments(@Parameter(description = "id of the issue whose commits we search")
-                                              @PathVariable String id) throws IssueNotFoundException {
+                                          @PathVariable String id) throws IssueNotFoundException {
         return getIssue(id).getComments(); }
 
 }
