@@ -1,67 +1,66 @@
 package aiss.gitminer.services.bitbucket;
 
-import aiss.gitminer.model.bitbucket.bs.User;
-import aiss.gitminer.model.bitbucket.esclave.comments.CommentBitbucket;
-import aiss.gitminer.model.github.CommentGithub;
-import aiss.gitminer.util.Checkers;
+import aiss.gitminer.model.bitbucket.esclave.comments.CommentValue;
 import aiss.gitminer.util.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class CommentBitbucketService {
 
-    // IMPORTANTE: Usar autowired NO es conveniente en esta clase en concreto
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public List<CommentBitbucket> getAllCommentsFromIssue(String commentsUrl, Integer maxPages) {
-        List<CommentBitbucket> res = new ArrayList<>();
+    public List<CommentValue> getAllCommentsFromIssue(String commentsUrl, Integer maxPages) {
+        List<CommentValue> allComments = new ArrayList<>();
 
-        int pagesToRetrieve = maxPages != null ? maxPages : Environment.GITHUB_DEFAULT_MAX_PAGES;
+        HttpHeaders headers = new HttpHeaders();
+        // Si tu API requiere auth, descomenta:
+        // headers.setBearerAuth(Environment.BITBUCKET_TOKEN);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        for(int page = 1; page <= pagesToRetrieve; page++) {
-            String localUrl = commentsUrl + "?page=" + page;
-            ResponseEntity<CommentBitbucket[]> localResponse = restTemplate.exchange(
-                    localUrl, HttpMethod.GET, entity, CommentBitbucket[].class);
-            List<CommentBitbucket> pageComments = Arrays.stream(localResponse.getBody()).toList();
-            if (pageComments.isEmpty()) {
-                break; // No more comments to retrieve
-            } else {
-                res.addAll(pageComments);
-            }
+        String url = commentsUrl;
+        int pagesToRetrieve = maxPages != null
+                ? maxPages
+                : Environment.GITHUB_DEFAULT_MAX_PAGES;
+
+        for (int i = 0; i < pagesToRetrieve && url != null; i++) {
+            ResponseEntity<PaginatedComments> resp = restTemplate.exchange(
+                    url, HttpMethod.GET, entity, PaginatedComments.class
+            );
+
+            PaginatedComments page = resp.getBody();
+            if (page == null || page.getValues().isEmpty()) break;
+
+            allComments.addAll(page.getValues());
+            url = page.getNext();
         }
 
-        return res;
+        return allComments;
     }
 
-    public User getUserFromBitbucket(String id) {
-        String url = Environment.BITBUCKET_BASEURI + "/users/" + id;
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class PaginatedComments {
+        private List<CommentValue> values;
+        private String next;
 
-        try {
-            String auth = User. + ":" + appPassword;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Basic " + encodedAuth);
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-            ResponseEntity<Users> response = restTemplate.exchange(url, HttpMethod.GET, entity, Users.class);
-            if (response.getBody() == null) {
-                logger.warn("La respuesta de la API de Bitbucket es nula para la URL: {}", url);
-                return null;
-            }
-
-            return response.getBody();
-        } catch (RestClientException e) {
-            logger.error("Error al realizar la solicitud a la API de Bitbucket: {}", e.getMessage());
-            return null;
+        public List<CommentValue> getValues() {
+            return values;
+        }
+        public void setValues(List<CommentValue> values) {
+            this.values = values;
+        }
+        public String getNext() {
+            return next;
+        }
+        public void setNext(String next) {
+            this.next = next;
         }
     }
 }
