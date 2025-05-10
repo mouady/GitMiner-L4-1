@@ -8,11 +8,13 @@ import java.util.List;
 public class CommitBitbucketTransformer {
 
     public static Commit transformToCommit(CommitBitbucket commitBitbucket) {
+        int aperturacorreo = commitBitbucket.getAuthor().getRaw().indexOf('<');
+        int cierrecorreo = commitBitbucket.getAuthor().getRaw().indexOf('>');
         return new Commit(commitBitbucket.getHash(),
                 commitBitbucket.getSummary().getRaw(),
                 commitBitbucket.getMessage(),
-                commitBitbucket.getAuthor().getRaw(),
-                null, // no lo proporciona
+                commitBitbucket.getAuthor().getRaw().substring(0, aperturacorreo).trim(),
+                commitBitbucket.getAuthor().getRaw().substring(aperturacorreo + 1, cierrecorreo).trim(),
                 commitBitbucket.getDate(),
                 // * NOTA
                 commitBitbucket.getLinks().getSelf().getHref()
