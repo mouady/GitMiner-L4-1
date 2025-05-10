@@ -23,9 +23,7 @@ public class IssueBitbucketServiceTest {
             System.out.println("State: " + issue.getState());
             System.out.println("Created At: " + issue.getCreatedOn());
             System.out.println("Updated At: " + issue.getUpdatedOn());
-            // System.out.println("Labels: " + issue.getLabels());
-            System.out.println("User: " + issue.getReporter());
-            System.out.println("Assignee: " + issue.getAssignee());
+            System.out.println("Votes: " + issue.getVotes());
             System.out.println("==================================");
         }
 

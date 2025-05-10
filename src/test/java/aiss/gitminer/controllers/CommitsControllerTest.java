@@ -42,19 +42,4 @@ class CommitsControllerTest {
             System.out.println("WebUrl: " + commit.getWebUrl());
         }
     }
-
-    @Test
-    void getCommitByEmail() throws CommitNotFoundException {
-        List<Commit> commits = controller.getCommitsByEmail("a@gmail.com");
-        for (Commit commit : commits) {
-            System.out.println("==================================");
-            System.out.println("ID: " + commit.getId());
-            System.out.println("Title: " + commit.getTitle());
-            System.out.println("Message: " + commit.getMessage());
-            System.out.println("AuthorName: " + commit.getAuthorName());
-            System.out.println("AuthorEmail: " + commit.getAuthorEmail());
-            System.out.println("AuthoredDate: " + commit.getAuthoredDate());
-            System.out.println("WebUrl: " + commit.getWebUrl());
-        }
-    }
 }
