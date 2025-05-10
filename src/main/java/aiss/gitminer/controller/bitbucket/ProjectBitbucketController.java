@@ -1,67 +1,83 @@
 package aiss.gitminer.controller.bitbucket;
 
+import aiss.gitminer.model.Commit;
+import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Project;
+import aiss.gitminer.model.bitbucket.esclave.IssueBitbucket;
+import aiss.gitminer.model.bitbucket.esclave.RepositoryBitbucket;
+import aiss.gitminer.repository.CommentRepository;
+import aiss.gitminer.repository.CommitRepository;
+import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import aiss.gitminer.services.bitbucket.CommitBitbucketService;
+import aiss.gitminer.services.bitbucket.IssueBitbucketService;
+import aiss.gitminer.services.bitbucket.RepositoryBitbucketService;
+import aiss.gitminer.transformers.bitbucket.CommitBitbucketTransformer;
+import aiss.gitminer.transformers.bitbucket.IssueBitbucketTransformer;
+import aiss.gitminer.transformers.bitbucket.RepositoryBitbucketTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/bitbucket")
-
 public class ProjectBitbucketController {
+
     @Autowired
     ProjectRepository projectRepository;
 
-    @Operation(
-            summary="Insert a Project",
-            description="From git it extracts a project and inserts it in GitMiner",
-            tags={"projects", "post"}
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", content = {@Content(schema=@Schema(implementation = Project.class),
-                mediaType="application/json")}),
-            @ApiResponse(responseCode="400", content={@Content(schema = @Schema())})
-    })
+    // Services
+    @Autowired
+    RepositoryBitbucketService repositoryBitbucketService;
 
-    @GetMapping("/projects")
-    public List<Project> getAllProjects(@RequestParam(defaultValue="0") int page,
-                                        @RequestParam(required = false) String order,
-                                        @RequestParam(defaultValue = "3") int size) {
-        Pageable paging;
+    @Autowired
+    CommitBitbucketService commitBitbucketService;
 
-        if (order != null) {
-            if (order.startsWith("-"))
-                paging = PageRequest.of(page, size, Sort.by(order.substring(1)).descending());
-            else
-                paging = PageRequest.of(page, size, Sort.by(order).ascending());
-        } else
-            paging = PageRequest.of(page, size);
+    @Autowired
+    IssueBitbucketService issueBitbucketService;
 
-        Page<Project> pageProjects;
-        pageProjects = projectRepository.findAll(paging);
-        return pageProjects.getContent();
+    private Project getProjectObject(String owner, String repo,
+                                     Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
+        Project res = RepositoryBitbucketTransformer.transformToProject(repositoryBitbucketService.getRepository(owner, repo));
+        List<Commit> commits = CommitBitbucketTransformer.transformToCommits(
+                commitBitbucketService.getAllCommits(owner, repo, sinceCommits, maxPages));
+        res.setCommits(commits);
+
+
+        List<IssueBitbucket> oi = issueBitbucketService.getAllIssuesFromRepo(owner, repo, maxPages);
+        List<Issue> issues = new ArrayList<>();
+        for (IssueBitbucket cissue : oi) {
+            Issue cache = IssueBitbucketTransformer.transform(cissue);
+            issues.add(cache);
+        }
+        res.setIssues(issues);
+
+        return res;
     }
 
-    @GetMapping("/projects/{id}/commits")
+    @GetMapping("/{owner}/{repo}")
+    public Project getProject(@PathVariable String owner, @PathVariable String repo,
+                              @RequestParam(required = false) Integer sinceCommits,
+                              @RequestParam(required = false) Integer sinceIssues,
+                              @RequestParam(required = false) Integer maxPages) {
 
-    public ResponseEntity<Void> get(@PathVariable String id) {
-        try {
-            projectRepository.findById(id.trim());
-            return ResponseEntity.noContent().build();
-        }catch(EmptyResultDataAccessException ex) {
-            return ResponseEntity.notFound().build();
-        }}
+        return getProjectObject(owner, repo, sinceCommits, sinceIssues, maxPages);
+    }
+
+    @PostMapping("/{owner}/{repo}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project createProject(@PathVariable String owner, @PathVariable String repo,
+                                 @RequestParam(required = false) Integer sinceCommits,
+                                 @RequestParam(required = false) Integer sinceIssues,
+                                 @RequestParam(required = false) Integer maxPages) {
+
+        Project res = getProjectObject(owner, repo, sinceCommits, sinceIssues, maxPages);
+
+        return projectRepository.save(res);
+    }
+
+
 }
