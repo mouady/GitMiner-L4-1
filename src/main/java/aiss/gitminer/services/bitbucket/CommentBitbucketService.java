@@ -26,7 +26,7 @@ public class CommentBitbucketService {
         String url = commentsUrl;
         int pagesToRetrieve = maxPages != null
                 ? maxPages
-                : Environment.GITHUB_DEFAULT_MAX_PAGES;
+                : Environment.BITBUCKET_DEFAULT_MAX_PAGES;
 
         for (int i = 0; i < pagesToRetrieve && url != null; i++) {
             ResponseEntity<PaginatedComments> resp = restTemplate.exchange(
