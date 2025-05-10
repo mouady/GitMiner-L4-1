@@ -1,5 +1,6 @@
 package aiss.gitminer.controller.bitbucket;
 
+import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Project;
@@ -9,12 +10,15 @@ import aiss.gitminer.repository.CommentRepository;
 import aiss.gitminer.repository.CommitRepository;
 import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
+import aiss.gitminer.services.bitbucket.CommentBitbucketService;
 import aiss.gitminer.services.bitbucket.CommitBitbucketService;
 import aiss.gitminer.services.bitbucket.IssueBitbucketService;
 import aiss.gitminer.services.bitbucket.RepositoryBitbucketService;
+import aiss.gitminer.transformers.bitbucket.CommentBitbucketTransformer;
 import aiss.gitminer.transformers.bitbucket.CommitBitbucketTransformer;
 import aiss.gitminer.transformers.bitbucket.IssueBitbucketTransformer;
 import aiss.gitminer.transformers.bitbucket.RepositoryBitbucketTransformer;
+import aiss.gitminer.util.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +43,9 @@ public class ProjectBitbucketController {
     @Autowired
     IssueBitbucketService issueBitbucketService;
 
+    @Autowired
+    CommentBitbucketService commentBitbucketService;
+
     private Project getProjectObject(String owner, String repo,
                                      Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
         Project res = RepositoryBitbucketTransformer.transformToProject(repositoryBitbucketService.getRepository(owner, repo));
@@ -52,8 +59,13 @@ public class ProjectBitbucketController {
         for (IssueBitbucket cissue : oi) {
             Issue cache = IssueBitbucketTransformer.transform(cissue);
             issues.add(cache);
+            cache.setComments(CommentBitbucketTransformer.transformListOfCommentValuesToComments(commentBitbucketService.getAllCommentsFromIssue(
+                    Environment.BITBUCKET_BASEURI + owner + "/" + repo + "/issues/" + cache.getId() + "/comments", null))
+                    // https://api.bitbucket.org/2.0/repositories/gentlero/bitbucket-api/issues/87/comments
+            );
         }
         res.setIssues(issues);
+
 
         return res;
     }
@@ -78,6 +90,4 @@ public class ProjectBitbucketController {
 
         return projectRepository.save(res);
     }
-
-
 }
