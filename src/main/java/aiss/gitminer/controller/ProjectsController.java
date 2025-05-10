@@ -26,7 +26,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name= "Project", description="Project extracted from Git")
+@Tag(name= "Projects", description="Projects of GitMiner")
 @RestController
 @RequestMapping("/gitminer")
 public class ProjectsController {
@@ -38,7 +38,7 @@ public class ProjectsController {
     @Operation(
             summary = "Retrieve a list of projects",
             description = "Get the list of projects",
-            tags = {"issues","get"}
+            tags = {"Projects","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
@@ -66,7 +66,7 @@ public class ProjectsController {
     @Operation(
             summary= "Insert a Project",
             description = "From git it extract a project and insert it in GitMiner",
-            tags = { "projects","post"}
+            tags = { "Projects","POST"}
     )
     @ApiResponses({
              @ApiResponse(responseCode = "201",content = {@Content(schema=@Schema(implementation = Project.class)
@@ -84,7 +84,7 @@ public class ProjectsController {
     @Operation(
             summary = "Delete a project",
             description = "Delete a project of GitMiner",
-            tags = {"projects", "delete"}
+            tags = {"Projects", "DELETE"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204",content = {@Content(schema = @Schema()) }),
@@ -108,7 +108,7 @@ public class ProjectsController {
     @Operation(
             summary= "Update a Project",
             description = "Update a Project by specifying its id and whose data is passed",
-            tags = { "projects","put"}
+            tags = { "Projects","PUT"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204",content = {@Content(schema = @Schema()) }),

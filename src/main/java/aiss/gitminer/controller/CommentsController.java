@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name= "Issue",description="Comments extracted from an Issue")
+@Tag(name= "Comments",description="Comments extracted from an Issue")
 @RestController
 @RequestMapping("/gitminer")
 public class CommentsController {
@@ -34,7 +34,7 @@ public class CommentsController {
     @Operation(
             summary = "Retrieve a Comment by Id",
             description = "Get a Comment object by specifying its id",
-            tags = {"issues","get"}
+            tags = {"Comments","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
@@ -54,7 +54,7 @@ public class CommentsController {
     @Operation(
             summary = "Retrieve a list of comments",
             description = "Get the list of comments",
-            tags = {"issues","get"}
+            tags = {"Comments","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)

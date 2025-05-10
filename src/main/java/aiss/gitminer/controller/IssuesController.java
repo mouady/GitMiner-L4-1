@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name= "Issue",description="Issues extracted from a Project")
+@Tag(name= "Issues",description="Issues extracted from a Project")
 @RestController
 @RequestMapping("/gitminer")
 public class IssuesController {
@@ -33,7 +33,7 @@ public class IssuesController {
     @Operation(
             summary = "Retrieve an Issue by Id",
             description = "Get an Issue object by specifying its id",
-            tags = {"issues","get"}
+            tags = {"Issues","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
@@ -54,7 +54,7 @@ public class IssuesController {
     @Operation(
             summary = "Retrieve a list of issues",
             description = "Get the list of issues and you can filter by title, state and authorId",
-            tags = {"issues","get"}
+            tags = {"Issues","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
@@ -104,7 +104,7 @@ public class IssuesController {
     @Operation(
             summary = "Retrieve an Issue comments",
             description = "Get all Issue's comments by specifying its id",
-            tags = {"issues","get"}
+            tags = {"Issues","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)

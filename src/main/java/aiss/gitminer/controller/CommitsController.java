@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@Tag(name="Commit",description = "Commits extracted from a Project")
+@Tag(name="Commits",description = "Commits extracted from a Project")
 @RestController
 @RequestMapping("/gitminer")
 public class CommitsController {
@@ -30,7 +30,7 @@ public class CommitsController {
         @Operation(
                 summary = "Retrieve a Commit by Id",
                 description = "Get a Commit object by specifying its id",
-                tags = {"commits","get"}
+                tags = {"Commits","GET"}
         )
         @ApiResponses({
                 @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Commit.class)
