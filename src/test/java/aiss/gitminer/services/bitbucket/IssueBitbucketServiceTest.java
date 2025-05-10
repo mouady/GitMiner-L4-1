@@ -14,7 +14,7 @@ public class IssueBitbucketServiceTest {
 
     @Test
     void getAllIssues() {
-        List<IssueBitbucket> issues = service.getAllIssuesFromRepo("gentlero", "bitbucket-api", 20);
+        List<IssueBitbucket> issues = service.getAllIssuesFromRepo("gentlero", "bitbucket-api", null, null);
         for (IssueBitbucket issue : issues) {
             System.out.println("==================================");
             System.out.println("ID: " + issue.getId());

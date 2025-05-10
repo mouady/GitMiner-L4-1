@@ -6,9 +6,6 @@ import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.model.bitbucket.esclave.IssueBitbucket;
 import aiss.gitminer.model.bitbucket.esclave.RepositoryBitbucket;
-import aiss.gitminer.repository.CommentRepository;
-import aiss.gitminer.repository.CommitRepository;
-import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
 import aiss.gitminer.services.bitbucket.CommentBitbucketService;
 import aiss.gitminer.services.bitbucket.CommitBitbucketService;
@@ -31,63 +28,85 @@ import java.util.List;
 public class ProjectBitbucketController {
 
     @Autowired
-    ProjectRepository projectRepository;
-
-    // Services
-    @Autowired
-    RepositoryBitbucketService repositoryBitbucketService;
+    private ProjectRepository projectRepository;
 
     @Autowired
-    CommitBitbucketService commitBitbucketService;
+    private RepositoryBitbucketService repositoryBitbucketService;
 
     @Autowired
-    IssueBitbucketService issueBitbucketService;
+    private CommitBitbucketService commitBitbucketService;
 
     @Autowired
-    CommentBitbucketService commentBitbucketService;
+    private IssueBitbucketService issueBitbucketService;
 
+    @Autowired
+    private CommentBitbucketService commentBitbucketService;
+
+    /**
+     * Construye el objeto Project usando los servicios de Bitbucket.
+     *
+     * @param owner     propietario del repositorio
+     * @param repo      nombre del repositorio
+     * @param nCommits  commits por página
+     * @param nIssues   issues por página
+     * @param maxPages  número máximo de páginas a recorrer
+     */
     private Project getProjectObject(String owner, String repo,
-                                     Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
-        Project res = RepositoryBitbucketTransformer.transformToProject(repositoryBitbucketService.getRepository(owner, repo));
-        List<Commit> commits = CommitBitbucketTransformer.transformToCommits(
-                commitBitbucketService.getAllCommits(owner, repo, sinceCommits, maxPages));
-        res.setCommits(commits);
+                                     int nCommits, int nIssues, int maxPages) {
+        RepositoryBitbucket repoBB = repositoryBitbucketService.getRepository(owner, repo);
+        Project project = RepositoryBitbucketTransformer.transformToProject(repoBB);
 
+        List<Commit> commits = CommitBitbucketTransformer
+                .transformToCommits(
+                        commitBitbucketService.getAllCommits(owner, repo, nCommits, maxPages)
+                );
+        project.setCommits(commits);
 
-        List<IssueBitbucket> oi = issueBitbucketService.getAllIssuesFromRepo(owner, repo, maxPages);
+        List<IssueBitbucket> rawIssues =
+                issueBitbucketService.getAllIssuesFromRepo(owner, repo, nIssues, maxPages);
+
         List<Issue> issues = new ArrayList<>();
-        for (IssueBitbucket cissue : oi) {
-            Issue cache = IssueBitbucketTransformer.transform(cissue);
-            issues.add(cache);
-            cache.setComments(CommentBitbucketTransformer.transformListOfCommentValuesToComments(commentBitbucketService.getAllCommentsFromIssue(
-                    Environment.BITBUCKET_BASEURI + owner + "/" + repo + "/issues/" + cache.getId() + "/comments", null))
-                    // https://api.bitbucket.org/2.0/repositories/gentlero/bitbucket-api/issues/87/comments
-            );
+        for (IssueBitbucket bbIssue : rawIssues) {
+            Issue issue = IssueBitbucketTransformer.transform(bbIssue);
+
+            String commentsUrl = Environment.BITBUCKET_BASEURI
+                    + owner + "/" + repo
+                    + "/issues/" + issue.getId()
+                    + "/comments";
+
+            List<Comment> comments = CommentBitbucketTransformer
+                    .transformListOfCommentValuesToComments(
+                            commentBitbucketService.getAllCommentsFromIssue(commentsUrl, null)
+                    );
+            issue.setComments(comments);
+            issues.add(issue);
         }
-        res.setIssues(issues);
+        project.setIssues(issues);
 
-
-        return res;
+        return project;
     }
 
     @GetMapping("/{owner}/{repo}")
-    public Project getProject(@PathVariable String owner, @PathVariable String repo,
-                              @RequestParam(required = false) Integer sinceCommits,
-                              @RequestParam(required = false) Integer sinceIssues,
-                              @RequestParam(required = false) Integer maxPages) {
+    public Project getProject(
+            @PathVariable String owner,
+            @PathVariable String repo,
+            @RequestParam(defaultValue = "5") int nCommits,
+            @RequestParam(defaultValue = "5") int nIssues,
+            @RequestParam(defaultValue = "2") int maxPages) {
 
-        return getProjectObject(owner, repo, sinceCommits, sinceIssues, maxPages);
+        return getProjectObject(owner, repo, nCommits, nIssues, maxPages);
     }
 
     @PostMapping("/{owner}/{repo}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Project createProject(@PathVariable String owner, @PathVariable String repo,
-                                 @RequestParam(required = false) Integer sinceCommits,
-                                 @RequestParam(required = false) Integer sinceIssues,
-                                 @RequestParam(required = false) Integer maxPages) {
+    public Project createProject(
+            @PathVariable String owner,
+            @PathVariable String repo,
+            @RequestParam(defaultValue = "5") int nCommits,
+            @RequestParam(defaultValue = "5") int nIssues,
+            @RequestParam(defaultValue = "2") int maxPages) {
 
-        Project res = getProjectObject(owner, repo, sinceCommits, sinceIssues, maxPages);
-
-        return projectRepository.save(res);
+        Project project = getProjectObject(owner, repo, nCommits, nIssues, maxPages);
+        return projectRepository.save(project);
     }
 }

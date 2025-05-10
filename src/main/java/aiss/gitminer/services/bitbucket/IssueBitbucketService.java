@@ -18,7 +18,7 @@ public class IssueBitbucketService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<IssueBitbucket> getAllIssuesFromRepo(String workspace, String repoSlug, Integer maxPages) {
+    public List<IssueBitbucket> getAllIssuesFromRepo(String workspace, String repoSlug, Integer nIssues, Integer maxPages) {
         List<IssueBitbucket> results = new ArrayList<>();
         String baseUrl = Environment.BITBUCKET_BASEURI;
         String nextUrl = UriComponentsBuilder
