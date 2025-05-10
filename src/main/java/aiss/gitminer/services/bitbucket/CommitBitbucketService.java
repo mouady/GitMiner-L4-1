@@ -34,8 +34,9 @@ public class CommitBitbucketService {
             PaginatedCommits page = resp.getBody();
             if (page == null || page.getValues().isEmpty()) break;
             res.addAll(page.getValues());
-            if (res.size() >= commitsToRetrieve) {
-                return res.subList(0, commitsToRetrieve);
+            if (page.getValues().size() > commitsToRetrieve) {
+                res.addAll(page.getValues().subList(0, commitsToRetrieve));
+                return res;
             }
             url = page.getNext();
         }

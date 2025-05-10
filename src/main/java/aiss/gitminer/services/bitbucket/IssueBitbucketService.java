@@ -54,10 +54,10 @@ public class IssueBitbucketService {
             }
 
             res.addAll(page.getValues());
-            if (res.size() >= issuesToRetrieve) {
-                return res.subList(0, issuesToRetrieve);
+            if (page.getValues().size() > issuesToRetrieve) {
+                res.addAll(page.getValues().subList(0, issuesToRetrieve));
+                return res;
             }
-
             url = page.getNext();
         }
 
