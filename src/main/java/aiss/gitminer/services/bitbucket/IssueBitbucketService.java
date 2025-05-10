@@ -1,63 +1,61 @@
 package aiss.gitminer.services.bitbucket;
 
 import aiss.gitminer.model.bitbucket.esclave.IssueBitbucket;
-import aiss.gitminer.model.github.IssueGithub;
-import aiss.gitminer.util.Checkers;
-import aiss.gitminer.util.DateUtils;
 import aiss.gitminer.util.Environment;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class IssueBitbucketService {
 
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    /**
-     * Retrieves all issues from a given repository.
-     *
-     * @param owner         The owner of the repository.
-     * @param repo          The name of the repository.
-     * @param sinceIssues   La operación devolverá los issues actualizados en los últimos X días, siendo
-     * X el valor introducido como parámetro.
-     * @param maxPages      The maximum number of pages to retrieve.
-     * @return A list of IssueGithub objects representing the issues in the repository.
-     */
-    public List<IssueBitbucket> getAllIssuesFromRepo(String owner, String repo, Integer sinceIssues, Integer maxPages) {
-        List<IssueBitbucket> res = new ArrayList<>();
+    public List<IssueBitbucket> getAllIssuesFromRepo(String workspace, String repoSlug, Integer maxPages) {
+        List<IssueBitbucket> results = new ArrayList<>();
+        String baseUrl = Environment.BITBUCKET_BASEURI;
+        String nextUrl = UriComponentsBuilder
+                .fromHttpUrl(baseUrl)
+                .pathSegment(workspace, repoSlug, "issues")
+                .toUriString();
 
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<IssueGithub[]> entity = new HttpEntity<>(headers);
+        headers.setBasicAuth(Environment.BITBUCKET_USER, Environment.BITBUCKET_APP_PASSWORD);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        String issuesToRetrieve = sinceIssues != null ? DateUtils.getDateMinusDays(sinceIssues) : Environment.GITHUB_DEFAULT_SINCE_ISSUES;
-        int pagesToRetrieve = maxPages != null ? maxPages : Environment.GITHUB_DEFAULT_MAX_PAGES;
-
-        String uri = Environment.GITHUB_BASEURI + owner + "/" + repo + "/issues" + "?since=" + issuesToRetrieve;
-
-        for(int page = 1; page <= pagesToRetrieve; page++) {
-            String localUri = uri + "&page=" + page;
-            ResponseEntity<IssueBitbucket[]> localResponse = restTemplate.exchange(
-                    localUri, HttpMethod.GET, entity, IssueBitbucket[].class);
-            List<IssueBitbucket> pageIssues = Arrays.stream(localResponse.getBody()).toList();
-            if (pageIssues.isEmpty()) {
-                break; // No more issues to retrieve
-            } else {
-                res.addAll(pageIssues);
+        int pages = maxPages != null ? maxPages : Environment.BITBUCKET_DEFAULT_MAX_PAGES;
+        for (int page = 1; page <= pages && nextUrl != null; page++) {
+            String pagedUrl = UriComponentsBuilder
+                    .fromHttpUrl(nextUrl)
+                    .replaceQueryParam("page", page)
+                    .toUriString();
+            ResponseEntity<PaginatedIssues> resp = restTemplate.exchange(
+                    pagedUrl, HttpMethod.GET, request, PaginatedIssues.class);
+            PaginatedIssues body = resp.getBody();
+            if (body == null || body.getValues() == null || body.getValues().isEmpty()) {
+                break;
             }
+            results.addAll(body.getValues());
+            nextUrl = body.getNext();
         }
-
-        return res;
+        return results;
     }
 
-
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class PaginatedIssues {
+        private List<IssueBitbucket> values;
+        private String next;
+        public List<IssueBitbucket> getValues() { return values; }
+        public void setValues(List<IssueBitbucket> values) { this.values = values; }
+        public String getNext() { return next; }
+        public void setNext(String next) { this.next = next; }
+    }
 }

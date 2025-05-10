@@ -37,7 +37,7 @@ public class IssueBitbucket {
     @JsonProperty("type")
     private String type;
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("repository")
     private Repository repository;
     @JsonProperty("links")
@@ -86,12 +86,12 @@ public class IssueBitbucket {
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
