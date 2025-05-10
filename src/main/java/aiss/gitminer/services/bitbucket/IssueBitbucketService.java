@@ -49,8 +49,8 @@ public class IssueBitbucketService {
             if (body == null || body.getValues() == null || body.getValues().isEmpty()) {
                 break;
             }
-            if (page.getValues().size() >= nCommits) {
-                res.addAll(page.getValues().subList(0, nIssues));
+            if (body.getValues().size() >= nIssues) {
+                results.addAll(body.getValues().subList(0, nIssues));
             }
             results.addAll(body.getValues());
             nextUrl = body.getNext();
