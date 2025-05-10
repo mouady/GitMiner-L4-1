@@ -1,3 +1,3 @@
-# GitMiner
- GitMiner - Mining tool for Git project platforms
+# ⚙️ GitMiner Configuration ⚙️
 
+Bienvenido a la configuración
