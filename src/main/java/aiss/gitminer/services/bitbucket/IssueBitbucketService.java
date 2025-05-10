@@ -31,7 +31,13 @@ public class IssueBitbucketService {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        int pages = maxPages != null ? maxPages : Environment.BITBUCKET_DEFAULT_MAX_PAGES;
+        int issues = nIssues != null
+                ? nIssues
+                : Environment.BITBUCKET_DEFAULT_NISSUES;
+
+        int pages = maxPages != null
+                ? maxPages
+                : Environment.BITBUCKET_DEFAULT_MAX_PAGES;
         for (int page = 1; page <= pages && nextUrl != null; page++) {
             String pagedUrl = UriComponentsBuilder
                     .fromHttpUrl(nextUrl)
@@ -43,9 +49,13 @@ public class IssueBitbucketService {
             if (body == null || body.getValues() == null || body.getValues().isEmpty()) {
                 break;
             }
+            if (page.getValues().size() >= nCommits) {
+                res.addAll(page.getValues().subList(0, nIssues));
+            }
             results.addAll(body.getValues());
             nextUrl = body.getNext();
         }
+
         return results;
     }
 

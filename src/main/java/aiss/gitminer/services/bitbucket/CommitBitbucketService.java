@@ -17,22 +17,22 @@ public class CommitBitbucketService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<CommitBitbucket> getAllCommits(String owner, String repo, Integer sinceCommits, Integer maxPages) {
+    public List<CommitBitbucket> getAllCommits(String owner, String repo, Integer nCommits, Integer maxPages) {
         List<CommitBitbucket> res = new ArrayList<>();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        String since = (sinceCommits != null)
-                ? DateUtils.getDateMinusDays(sinceCommits)
-                : Environment.GITHUB_DEFAULT_SINCE_COMMITS;
+        int commitsToRetrieve = (nCommits != null)
+                ? nCommits
+                : Environment.BITBUCKET_DEFAULT_NCOMMITS;
         int pagesToRetrieve = (maxPages != null)
                 ? maxPages
-                : Environment.GITHUB_DEFAULT_MAX_PAGES;
+                : Environment.BITBUCKET_DEFAULT_MAX_PAGES;
 
         String url = Environment.BITBUCKET_BASEURI
                 + owner + "/"
                 + repo
-                + "/commits?since=" + since;
+                + "/commits?=nCommits=" + 5;
 
         for (int i = 0; i < pagesToRetrieve && url != null; i++) {
             ResponseEntity<PaginatedCommits> resp = restTemplate.exchange(
@@ -40,6 +40,9 @@ public class CommitBitbucketService {
             PaginatedCommits page = resp.getBody();
             if (page == null || page.getValues().isEmpty()) {
                 break;
+            }
+            if (page.getValues().size() >= nCommits) {
+                res.addAll(page.getValues().subList(0, nCommits));
             }
             res.addAll(page.getValues());
             url = page.getNext();

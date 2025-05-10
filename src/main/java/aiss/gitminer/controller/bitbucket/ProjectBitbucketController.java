@@ -62,9 +62,7 @@ public class ProjectBitbucketController {
                 );
         project.setCommits(commits);
 
-        List<IssueBitbucket> rawIssues =
-                issueBitbucketService.getAllIssuesFromRepo(owner, repo, nIssues, maxPages);
-
+        List<IssueBitbucket> rawIssues = issueBitbucketService.getAllIssuesFromRepo(owner, repo, nIssues, maxPages);
         List<Issue> issues = new ArrayList<>();
         for (IssueBitbucket bbIssue : rawIssues) {
             Issue issue = IssueBitbucketTransformer.transform(bbIssue);
