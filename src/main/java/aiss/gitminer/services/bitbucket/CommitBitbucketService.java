@@ -30,7 +30,6 @@ public class CommitBitbucketService {
                 : Environment.GITHUB_DEFAULT_MAX_PAGES;
 
         String url = Environment.BITBUCKET_BASEURI
-                + "repositories/"
                 + owner + "/"
                 + repo
                 + "/commits?since=" + since;
