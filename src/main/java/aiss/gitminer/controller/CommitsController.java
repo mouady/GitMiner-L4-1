@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@Tag(name="Commit",description = "Commit extracted from a Project")
+@Tag(name="Commit",description = "Commits extracted from a Project")
 @RestController
 @RequestMapping("/gitminer")
 public class CommitsController {

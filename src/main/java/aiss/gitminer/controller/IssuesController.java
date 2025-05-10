@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name= "Issue",description="Issue extracted from a Project")
+@Tag(name= "Issue",description="Issues extracted from a Project")
 @RestController
 @RequestMapping("/gitminer")
 public class IssuesController {

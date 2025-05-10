@@ -37,8 +37,8 @@ class IssuesControllerTest {
     }
 
     @Test
-    void getAllIssues() {
-        List<Issue> issues = controller.getAllIssues(null,null,0,3);
+    void getAllIssues() throws IssueNotFoundException {
+        List<Issue> issues = controller.getAllIssues(null,null,null,null,0,50);
         for (Issue issue : issues) {
             System.out.println("==================================");
             System.out.println("ID: " + issue.getId());
