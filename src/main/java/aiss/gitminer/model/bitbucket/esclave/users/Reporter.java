@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Generated;
 
+import aiss.gitminer.model.bitbucket.esclave.links.Links;
 import aiss.gitminer.model.bitbucket.esclave.links.Links__2;
 import com.fasterxml.jackson.annotation.*;
 
@@ -23,7 +24,7 @@ public class Reporter {
     @JsonProperty("display_name")
     private String displayName;
     @JsonProperty("links")
-    private Links__2 links;
+    private Links links;
     @JsonProperty("type")
     private String type;
     @JsonProperty("uuid")
@@ -46,12 +47,12 @@ public class Reporter {
     }
 
     @JsonProperty("links")
-    public Links__2 getLinks() {
+    public Links getLinks() {
         return links;
     }
 
     @JsonProperty("links")
-    public void setLinks(Links__2 links) {
+    public void setLinks(Links links) {
         this.links = links;
     }
 

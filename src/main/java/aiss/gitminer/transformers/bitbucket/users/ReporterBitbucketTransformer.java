@@ -6,14 +6,11 @@ import aiss.gitminer.model.bitbucket.esclave.users.Reporter;
 public class ReporterBitbucketTransformer {
 
     public static User transform(Reporter bitbucketReporter) {
-        User user = new User();
+        return new User(bitbucketReporter.getAccountId(),
+                bitbucketReporter.getNickname(),
+                bitbucketReporter.getDisplayName(),
+                bitbucketReporter.getLinks().getAvatar().getHref(),
+                bitbucketReporter.getLinks().getHtml().getHref());
 
-        user.setId(bitbucketReporter.getAccountId());
-        user.setName(bitbucketReporter.getNickname());
-        // Lo mas parecido al url del avatar
-        user.setAvatarUrl(bitbucketReporter.getLinks().getHtml().getHref());
-
-
-        return user;
     }
 }
