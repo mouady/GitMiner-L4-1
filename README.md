@@ -31,7 +31,7 @@ Bienvenido a la configuración de **GitMiner**, que no es más que una herramien
   
   5️⃣ **Genera un nuevo Token** (Generate new token (classic))
   
-  6️⃣ **Configuración de los detalles del tokenc:**
+  6️⃣ **Configuración de los detalles del token :**
      - **Note** : Describe el uso del token (en este caso, por ejemplo : `GitMiner Token`)
      - **Expiration** : Selecciona una expiración).
      - **Permisos**: Marca los permisos que sean necesarios.  
@@ -39,5 +39,51 @@ Bienvenido a la configuración de **GitMiner**, que no es más que una herramien
   7️⃣ Genera y guarda tu token en un lugar seguro
 
 ---
+
+## **Parámetros opcionales :** 
+
+⚙️ **sinceCommits:** La operación devolverá los commits enviados en los últimos X días, siendo 
+X el valor introducido como parámetro. Valor por defecto: **2**. 
+⚙️ **sinceIssues:** La operación devolverá los issues actualizados en los últimos X días, siendo 
+X el valor introducido como parámetro. Valor por defecto: **20**. 
+⚙️ **maxPages:** Número máximo de páginas en los que se iterará en todos los casos. Valor 
+por defecto: **2**.
+
+· Es por ello por lo que ponemos :
+
+`GITHUB_DEFAULT_SINCE_COMMITS=2`
+
+`GITHUB_DEFAULT_SINCE_ISSUES=20`
+
+`GITHUB_DEFAULT_MAX_PAGES=2`
+
+---
+
+## 🔧 Configuración · BitBucket 🔧 
+
+| `BITBUCKET_USER`                | Nombre de usuario de Bitbucket                              
+| `BITBUCKET_APP_PASSWORD`        | Contraseña de aplicación generada en Bitbucket            
+| `BITBUCKET_BASEURI`             | URL base para las consultas a repositorios de Bitbucket 
+
+## **Parámetros opcionales :** 
+
+⚙️ **nCommits:** La operación devolverá X commits por página, siendo X el valor introducido 
+como parámetro. Valor por defecto: **5**. 
+⚙️ **nIssues:** La operación devolverá X issues por página, siendo X el valor introducido como 
+parámetro. Valor por defecto: **5**. 
+⚙️ **maxPages:** Número máximo de páginas en los que se iterará en todos los casos. Valor 
+por defecto: **2**. 
+
+· Es por ello por lo que ponemos :
+
+`BITBUCKET_DEFAULT_SINCE_COMMITS=5`
+
+`BITBUCKET_DEFAULT_SINCE_ISSUES=5`
+
+`BITBUCKET_DEFAULT_MAX_PAGES=2`
+
+---
+
+
 
 
