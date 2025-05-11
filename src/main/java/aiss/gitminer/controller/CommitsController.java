@@ -31,7 +31,7 @@ public class CommitsController {
     @Operation(
             summary = "Retrieve a Commit by Id",
             description = "Get a Commit object by specifying its id",
-            tags = {"commits","get"}
+            tags = {"Commits","GET"}
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Commit.class)
@@ -47,6 +47,15 @@ public class CommitsController {
         }
         throw new CommitNotFoundException();
     }
+    @Operation(
+            summary = "Retrieve a list of commits",
+            description = "Get the list of commits",
+            tags = {"Commits","GET"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Commit.class)
+                    ,mediaType = "application/json")})
+    })
     @GetMapping("/commits")
     public List<Commit> getAllCommits() {
         return commitRepository.findAll();

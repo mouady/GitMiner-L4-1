@@ -36,6 +36,15 @@ public class ProjectsController {
 
 
 // GET PROJECT
+    @Operation(
+            summary = "Retrieve Project",
+            description = "Get the list of projects",
+            tags = {"Projects","GET"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Project.class)
+                    ,mediaType = "application/json")})
+    })
     @GetMapping("/projects/{id}")
     public Project getProject(@Parameter(description = "id of the project to be searched")
                               @PathVariable String id) throws ProjectNotFoundException {
@@ -54,7 +63,7 @@ public class ProjectsController {
             tags = {"Projects","GET"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Project.class)
                     ,mediaType = "application/json")})
     })
 

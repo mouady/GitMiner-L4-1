@@ -16,6 +16,12 @@ import aiss.gitminer.transformers.bitbucket.CommitBitbucketTransformer;
 import aiss.gitminer.transformers.bitbucket.IssueBitbucketTransformer;
 import aiss.gitminer.transformers.bitbucket.RepositoryBitbucketTransformer;
 import aiss.gitminer.util.Environment;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name= "ProjectsBitbucket", description="Projects extracted from Bitbucket")
 @RestController
 @RequestMapping("/bitbucket")
 public class ProjectBitbucketController {
@@ -84,6 +91,15 @@ public class ProjectBitbucketController {
         return project;
     }
 
+    @Operation(
+            summary = "Retrieve Project",
+            description = "Get Project from a repository",
+            tags = {"ProjectsBitbucket","GET"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Project.class)
+                    ,mediaType = "application/json")})
+    })
     @GetMapping("/{owner}/{repo}")
     public Project getProject(
             @PathVariable String owner,
@@ -95,6 +111,16 @@ public class ProjectBitbucketController {
         return getProjectObject(owner, repo, nCommits, nIssues, maxPages);
     }
 
+    @Operation(
+            summary= "Insert a Project",
+            description = "From GitHub it extract a project and insert it in GitMiner",
+            tags = { "ProjectsBitbucket","POST"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201",content = {@Content(schema=@Schema(implementation = Project.class)
+                    ,mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400",content = {@Content(schema = @Schema()) })
+    })
     @PostMapping("/{owner}/{repo}")
     @ResponseStatus(HttpStatus.CREATED)
     public Project createProject(
