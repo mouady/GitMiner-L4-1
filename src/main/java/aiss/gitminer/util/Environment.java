@@ -14,8 +14,6 @@ public class Environment {
     public static final Integer GITHUB_DEFAULT_MAX_PAGES =Integer.valueOf(dotenv.get("GITHUB_DEFAULT_MAX_PAGES"));
 
     // Bitbucket
-    public static final String BITBUCKET_USER = dotenv.get("BITBUCKET_USER");
-    public static final String BITBUCKET_APP_PASSWORD = dotenv.get("BITBUCKET_APP_PASSWORD");
     public static final String BITBUCKET_BASEURI = dotenv.get("BITBUCKET_BASEURI");
 
     public static final Integer BITBUCKET_DEFAULT_NCOMMITS = Integer.valueOf(dotenv.get("BITBUCKET_DEFAULT_NCOMMITS"));
