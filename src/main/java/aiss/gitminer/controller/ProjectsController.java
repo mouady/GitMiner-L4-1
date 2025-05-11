@@ -1,7 +1,6 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.ProjectNotFoundException;
-import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.ProjectRepository;
 import aiss.gitminer.model.Project;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,6 +32,19 @@ public class ProjectsController {
     @Autowired
     ProjectRepository projectRepository;
 
+
+// GET PROJECT
+    @GetMapping("/projects/{id}")
+    public Project getProject(@Parameter(description = "id of the project to be searched")
+                              @PathVariable String id) throws ProjectNotFoundException {
+        Optional<Project> project = projectRepository.findById(id);
+        if (project.isPresent()) {
+            return project.get();
+        }
+        throw new ProjectNotFoundException();
+    }
+
+
 // GET ALL
     @Operation(
             summary = "Retrieve a list of projects",
@@ -44,11 +55,13 @@ public class ProjectsController {
             @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
                     ,mediaType = "application/json")})
     })
+
     @GetMapping("/projects")
     public List<Project> getAllProjects(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(required = false) String order,
                                         @RequestParam(defaultValue = "3") int size) {
         Pageable paging;
+
         if (order != null) {
             if (order.startsWith("-"))
                 paging = PageRequest.of(page, size, Sort.by(order.substring(1)).descending());
