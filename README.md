@@ -65,6 +65,25 @@ por defecto: **2**.
 | `BITBUCKET_APP_PASSWORD`        | Contraseña de aplicación generada en Bitbucket            
 | `BITBUCKET_BASEURI`             | URL base para las consultas a repositorios de Bitbucket 
 
+**🔐 PASOS PARA OBTENER UN TOKEN DE BITBUCKET 🔐**
+
+1️⃣ Inicia sesión en Bitbucket
+Entra a https://bitbucket.org/account/signin/ 
+
+2️⃣ Accede a la configuración de tu cuenta.
+
+3️⃣ Ve a la sección “App passwords”
+Dentro de las configuraciones personales, en el menú lateral, selecciona App passwords.
+
+4️⃣ Crea una nueva contraseña de aplicación.
+
+5️⃣ Configura los detalles de la contraseña tales como:
+
+Label (Nombre): Describe el motivo del Token.
+Permissions (Permisos): Selecciona solo los permisos necesarios.
+
+6️⃣ Guarda el token generado, este es el que hay que poner en el parámetro anterior.
+
 ## **Parámetros opcionales :** 
 
 ⚙️ **nCommits:** La operación devolverá X commits por página, siendo X el valor introducido 
