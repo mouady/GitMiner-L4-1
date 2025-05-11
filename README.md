@@ -1,108 +1,78 @@
-# ⚙️ **GitMiner Configuration** ⚙️
+# ⚙️ **GitMiner** ⚙️
 
-Bienvenido a la configuración de **GitMiner**, que no es más que una herramienta de minería de repositorios Git (información de repositorios, tales como cargar, procesar y analizar datos de proyectos) en ***GitHub*** y ***Bitbucket*** mediante sus APIs. 
+Bienvenido a la configuración de **GitMiner**, una herramienta de minería de repositorios Git (información de repositorios, tales como carga, procesamiento y análisis de datos de proyectos) en ***GitHub*** y ***Bitbucket*** mediante sus APIs.
 
-❓· Vamos a introducir una ayuda dentro de los tokens de autenticación, URIs base y parámetros por defecto para las consultas de los Commits e Issues.
-
-----
-
-## 🔧 Configuración · GitHub 🔧 
-
-· En primer lugar, deberemos de configurar los parámetros de nuestro archivo *.ENV*
-❗** ¡OJO! ** → El archivo del proyecto hay que copiarlo y modificarlo de la siguiente manera: .ENV.EXAMPLE → .ENV
-
-· Para autenticarte con la API de **GitHub**, necesitas un token personal válido.
-
-| Parámetro .ENV                  | Descripción                         | Ejemplo                            |
-|---------------------------------|-------------------------------------|------------------------------------|
-| `GITHUB_TOKEN`                  | Token personal de acceso a GitHub   | =ghp_xxxxxx                        |
-| `GITHUB_BASEURI`                | URL base para las consultas         | =https://api.github.com/repos/     |   |---------------------------------|-------------------------------------|------------------------------------|
-
-
-· 🔐 **PASOS PARA OBTENER UN TOKEN (Personal Access Token) DE GITHUB** 🔐
-
-  1️⃣ Iniciar sesión en GitHub : [https://github.com/login](https://github.com/login)
-
-  2️⃣ Accede a la configuración de tu perfil una vez iniciada la sesión *(Settings)*
-  
-  3️⃣ Entra a *Developer Settings*  
-  
-  4️⃣ Selecciona  *Personal Access Tokens* → *Tokens (classic)*  
-  
-  5️⃣ **Genera un nuevo Token** (Generate new token (classic))
-  
-  6️⃣ **Configuración de los detalles del token :**
-     - **Note** : Describe el uso del token (en este caso, por ejemplo : `GitMiner Token`)
-     - **Expiration** : Selecciona una expiración).
-     - **Permisos**: Marca los permisos que sean necesarios.  
-  
-  7️⃣ Genera y guarda tu token en un lugar seguro
+❓ A continuación, se detallan las ayudas sobre los tokens de autenticación, URIs base y parámetros por defecto para las consultas:
 
 ---
 
-## **Parámetros opcionales :** 
+## 🔧 Configuración · GitHub 🔧
 
-⚙️ **sinceCommits:** La operación devolverá los commits enviados en los últimos X días, siendo 
-X el valor introducido como parámetro. Valor por defecto: **2**. 
-⚙️ **sinceIssues:** La operación devolverá los issues actualizados en los últimos X días, siendo 
-X el valor introducido como parámetro. Valor por defecto: **20**. 
-⚙️ **maxPages:** Número máximo de páginas en los que se iterará en todos los casos. Valor 
-por defecto: **2**.
+### 📁 Parámetros de configuración
 
-· Es por ello por lo que ponemos :
-
-`GITHUB_DEFAULT_SINCE_COMMITS=2`
-
-`GITHUB_DEFAULT_SINCE_ISSUES=20`
-
-`GITHUB_DEFAULT_MAX_PAGES=2`
+| Parámetro .ENV       | Descripción                           | Ejemplo                             |
+|----------------------|---------------------------------------|-------------------------------------|
+| `GITHUB_TOKEN`       | Token personal de acceso a GitHub     | `ghp_xxxxxx`                        |
+| `GITHUB_BASEURI`     | URL base para las consultas            | `https://api.github.com/repos/`     |
 
 ---
 
-## 🔧 Configuración · BitBucket 🔧 
+### 🔐 Pasos para obtener un Personal Access Token en GitHub
 
-| `BITBUCKET_USER`                | Nombre de usuario de Bitbucket                              
-| `BITBUCKET_APP_PASSWORD`        | Contraseña de aplicación generada en Bitbucket            
-| `BITBUCKET_BASEURI`             | URL base para las consultas a repositorios de Bitbucket 
-
-**🔐 PASOS PARA OBTENER UN TOKEN DE BITBUCKET 🔐**
-
-1️⃣ Inicia sesión en Bitbucket
-Entra a https://bitbucket.org/account/signin/ 
-
-2️⃣ Accede a la configuración de tu cuenta.
-
-3️⃣ Ve a la sección “App passwords”
-Dentro de las configuraciones personales, en el menú lateral, selecciona App passwords.
-
-4️⃣ Crea una nueva contraseña de aplicación.
-
-5️⃣ Configura los detalles de la contraseña tales como:
-
-Label (Nombre): Describe el motivo del Token.
-Permissions (Permisos): Selecciona solo los permisos necesarios.
-
-6️⃣ Guarda el token generado, este es el que hay que poner en el parámetro anterior.
-
-## **Parámetros opcionales :** 
-
-⚙️ **nCommits:** La operación devolverá X commits por página, siendo X el valor introducido 
-como parámetro. Valor por defecto: **5**. 
-⚙️ **nIssues:** La operación devolverá X issues por página, siendo X el valor introducido como 
-parámetro. Valor por defecto: **5**. 
-⚙️ **maxPages:** Número máximo de páginas en los que se iterará en todos los casos. Valor 
-por defecto: **2**. 
-
-· Es por ello por lo que ponemos :
-
-`BITBUCKET_DEFAULT_SINCE_COMMITS=5`
-
-`BITBUCKET_DEFAULT_SINCE_ISSUES=5`
-
-`BITBUCKET_DEFAULT_MAX_PAGES=2`
+1️⃣ Inicia sesión en [https://github.com/login](https://github.com/login)  
+2️⃣ Accede a la configuración de tu perfil (*Settings*)  
+3️⃣ Entra en *Developer Settings*  
+4️⃣ Selecciona *Personal Access Tokens* → *Tokens (classic)*  
+5️⃣ Haz clic en **Generate new token (classic)**  
+6️⃣ Configura los detalles del token:
+   - **Note**: `GitMiner Token` (o el nombre que desees)
+   - **Expiration**: Define la expiración deseada
+   - **Permisos**: Marca los permisos necesarios
 
 ---
 
+### ⚙️ Parámetros por defecto para GitHub
 
+Estos parámetros controlan el comportamiento por defecto de las consultas a la API:
 
+| Parámetro                            | Descripción                                                                 | Valor por defecto |
+|--------------------------------------|-----------------------------------------------------------------------------|-------------------|
+| `GITHUB_DEFAULT_SINCE_COMMITS`       | Devuelve los commits de los últimos **X** días                              | 2                 |
+| `GITHUB_DEFAULT_SINCE_ISSUES`        | Devuelve las issues actualizados en los últimos **X** días                  | 20                |
+| `GITHUB_DEFAULT_MAX_PAGES`           | Número máximo de páginas a iterar                                           | 2                 |
+
+---
+
+## 🔧 Configuración · Bitbucket 🔧
+
+### 📁 Parámetros de configuración
+
+| Parámetro .ENV         | Descripción                                    | Ejemplo                                       |
+|------------------------|------------------------------------------------|-----------------------------------------------|
+| `BITBUCKET_BASEURI`    | URL base para las consultas a Bitbucket        | `https://api.bitbucket.org/2.0/repositories/` |
+
+---
+
+### ⚙️ Parámetros por defecto para Bitbucket
+
+| Parámetro                                | Descripción                                                 | Valor por defecto |
+|------------------------------------------|-------------------------------------------------------------|-------------------|
+| `BITBUCKET_DEFAULT_SINCE_COMMITS`        | Devuelve **X** commits por página                           | 5                 |
+| `BITBUCKET_DEFAULT_SINCE_ISSUES`         | Devuelve **X** issues por página                            | 5                 |
+| `BITBUCKET_DEFAULT_MAX_PAGES`            | Número máximo de páginas a iterar                           | 2                 |
+
+---
+
+## 🧪 Colección de pruebas · Postman
+
+- Se incluye una **colección de Postman** que se utilizó para hacer las pruebas. 
+- 📂 Puedes importarla directamente en Postman de la siguiente manera:
+
+### 📥 Instrucciones para importar la colección en Postman
+
+1️⃣ Abre Postman  
+2️⃣ Haz clic en el botón **"Import"** (esquina superior izquierda)  
+3️⃣ Selecciona la pestaña **"Upload Files"**  
+4️⃣ Busca y selecciona el archivo `GitMiner-L4-1.postman_collection.json` incluido en el proyecto  
+5️⃣ Haz clic en **"Import"**  
 
