@@ -11,7 +11,7 @@ public class CommentBitbucketTransformer {
     public static Comment transformCommentValueToComment(CommentValue commentValue) {
 
         return new Comment(commentValue.getId().toString(),
-                commentValue.getContent().getRaw(),
+                commentValue.getContent().getRaw() == null ? "[NO BODY]" : commentValue.getContent().getRaw(), // Hay veces que no hay body
                 UserBitbucketTransformer.transform(commentValue.getUser()),
                 commentValue.getCreatedOn(),
                 commentValue.getUpdatedOn());

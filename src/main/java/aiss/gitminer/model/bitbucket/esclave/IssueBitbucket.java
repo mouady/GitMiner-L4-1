@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 
 import aiss.gitminer.model.bitbucket.bs.*;
 import aiss.gitminer.model.bitbucket.esclave.users.Reporter;
+import aiss.gitminer.model.bitbucket.esclave.users.UserBitbucket;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -47,9 +48,9 @@ public class IssueBitbucket {
     @JsonProperty("content")
     private Content content;
     @JsonProperty("reporter")
-    private Reporter reporter;
+    private UserBitbucket reporter;
     @JsonProperty("assignee")
-    private Object assignee;
+    private UserBitbucket assignee;
     @JsonProperty("created_on")
     private String createdOn;
     @JsonProperty("edited_on")
@@ -136,22 +137,22 @@ public class IssueBitbucket {
     }
 
     @JsonProperty("reporter")
-    public Reporter getReporter() {
+    public UserBitbucket getReporter() {
         return reporter;
     }
 
     @JsonProperty("reporter")
-    public void setReporter(Reporter reporter) {
+    public void setReporter(UserBitbucket reporter) {
         this.reporter = reporter;
     }
 
     @JsonProperty("assignee")
-    public Object getAssignee() {
+    public UserBitbucket getAssignee() {
         return assignee;
     }
 
     @JsonProperty("assignee")
-    public void setAssignee(Object assignee) {
+    public void setAssignee(UserBitbucket assignee) {
         this.assignee = assignee;
     }
 
