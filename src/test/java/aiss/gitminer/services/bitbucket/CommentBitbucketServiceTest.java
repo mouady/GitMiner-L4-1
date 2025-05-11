@@ -1,9 +1,6 @@
 package aiss.gitminer.services.bitbucket;
 
-import aiss.gitminer.model.bitbucket.esclave.comments.CommentBitbucket;
-import aiss.gitminer.model.bitbucket.esclave.comments.CommentValue;
-import aiss.gitminer.model.github.CommentGithub;
-import aiss.gitminer.services.bitbucket.CommentBitbucketService;
+import aiss.gitminer.model.bitbucket.comments.CommentValueBitbucket;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,9 +14,9 @@ public class CommentBitbucketServiceTest {
 
     @Test
     void getAllCommentsFromIssue() {
-        List<CommentValue> comments = service.getAllCommentsFromIssue("https://api.bitbucket.org/2.0/repositories/gentlero/bitbucket-api/issues/87/comments", null);
+        List<CommentValueBitbucket> comments = service.getAllCommentsFromIssue("https://api.bitbucket.org/2.0/repositories/gentlero/bitbucket-api/issues/87/comments", null);
         // actualmente son 6 los comentarios de esta issue cerrada
-        for (CommentValue comment : comments) {
+        for (CommentValueBitbucket comment : comments) {
             System.out.println("==================================");
             System.out.println("Id: " + comment.getId());
             System.out.println("Body: " + comment.getContent().getRaw());

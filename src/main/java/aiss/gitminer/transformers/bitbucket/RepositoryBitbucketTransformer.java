@@ -1,7 +1,7 @@
 package aiss.gitminer.transformers.bitbucket;
 
 import aiss.gitminer.model.Project;
-import aiss.gitminer.model.bitbucket.esclave.RepositoryBitbucket;
+import aiss.gitminer.model.bitbucket.RepositoryBitbucket;
 
 public class RepositoryBitbucketTransformer {
 

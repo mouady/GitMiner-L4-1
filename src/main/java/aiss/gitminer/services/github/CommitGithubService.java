@@ -1,7 +1,7 @@
 package aiss.gitminer.services.github;
 
 import aiss.gitminer.model.github.CommitGithub;
-import aiss.gitminer.util.DateUtils;
+import aiss.gitminer.util.Utils;
 import aiss.gitminer.util.Environment;
 import aiss.gitminer.util.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class CommitGithubService {
         if(Checkers.isTokenGithub(Environment.GITHUB_TOKEN)) headers.set("Authorization", "Bearer " + Environment.GITHUB_TOKEN);
         HttpEntity<CommitGithub[]> entity = new HttpEntity<>(headers);
 
-        String commitsToRetrieve = sinceCommits != null ? DateUtils.getDateMinusDays(sinceCommits) : Environment.GITHUB_DEFAULT_SINCE_COMMITS;
+        String commitsToRetrieve = sinceCommits != null ? Utils.getDateMinusDays(sinceCommits) : Environment.GITHUB_DEFAULT_SINCE_COMMITS;
         int pagesToRetrieve = maxPages != null ? maxPages : Environment.GITHUB_DEFAULT_MAX_PAGES;
 
         // Usamos since ya que no hay más parametros que puedan filtrar por fecha (aunque este devuelva los commits

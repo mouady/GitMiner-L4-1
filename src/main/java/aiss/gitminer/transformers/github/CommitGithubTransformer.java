@@ -2,15 +2,18 @@ package aiss.gitminer.transformers.github;
 
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.github.CommitGithub;
+import aiss.gitminer.util.Utils;
 
 import java.util.List;
 
 public class CommitGithubTransformer {
 
     public static Commit transformToCommit(CommitGithub commitGithub) {
+        List<String> tituloYMensaje = Utils.splitIntoTitleAndMessage(commitGithub.getCommit().getMessage());
+
         return new Commit(commitGithub.getSha(),
-                null, // No tiene sentido title en este caso
-                commitGithub.getCommit().getMessage(),
+                tituloYMensaje.get(0),
+                tituloYMensaje.get(1),
                 commitGithub.getCommit().getAuthor().getName(),
                 commitGithub.getCommit().getAuthor().getEmail(),
                 commitGithub.getCommit().getAuthor().getDate(),
