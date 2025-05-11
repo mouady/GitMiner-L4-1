@@ -1,6 +1,33 @@
 # ⚙️ **GitMiner** ⚙️
 
-Bienvenido a la configuración de **GitMiner**, una herramienta de minería de repositorios Git (información de repositorios, tales como carga, procesamiento y análisis de datos de proyectos) en ***GitHub*** y ***Bitbucket*** mediante sus APIs.
+Bienvenido a **GitMiner**, una herramienta de minería de repositorios Git (información de repositorios, tales como carga, procesamiento y análisis de datos de proyectos) en ***GitHub*** y ***Bitbucket*** mediante sus APIs.
+
+---
+
+## 📚 Documentación de la API · Swagger
+
+La documentación completa de la API REST de GitMiner está disponible mediante Swagger en el siguiente enlace:
+
+🔗 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+Desde ahi se puede explorar todos los endpoints disponibles directamente desde tu navegador al ejecutar el proyecto.
+
+---
+
+## 🧪 Colección de pruebas · Postman
+
+- Se incluye una **colección de Postman** que se utilizó para hacer las pruebas. 
+- 📂 Puedes importarla directamente en Postman de la siguiente manera:
+
+### 📥 Instrucciones para importar la colección en Postman
+
+1️⃣ Abre Postman  
+2️⃣ Haz clic en el botón **"Import"** (esquina superior izquierda)  
+3️⃣ Selecciona la pestaña **"Upload Files"**  
+4️⃣ Busca y selecciona el archivo `GitMiner-L4-1.postman_collection.json` incluido en el proyecto  
+5️⃣ Haz clic en **"Import"** 
+
+---
 
 ❓ A continuación, se detallan las ayudas sobre los tokens de autenticación, URIs base y parámetros por defecto para las consultas:
 
@@ -61,18 +88,4 @@ Estos parámetros controlan el comportamiento por defecto de las consultas a la 
 | `BITBUCKET_DEFAULT_SINCE_ISSUES`         | Devuelve **X** issues por página                            | 5                 |
 | `BITBUCKET_DEFAULT_MAX_PAGES`            | Número máximo de páginas a iterar                           | 2                 |
 
----
-
-## 🧪 Colección de pruebas · Postman
-
-- Se incluye una **colección de Postman** que se utilizó para hacer las pruebas. 
-- 📂 Puedes importarla directamente en Postman de la siguiente manera:
-
-### 📥 Instrucciones para importar la colección en Postman
-
-1️⃣ Abre Postman  
-2️⃣ Haz clic en el botón **"Import"** (esquina superior izquierda)  
-3️⃣ Selecciona la pestaña **"Upload Files"**  
-4️⃣ Busca y selecciona el archivo `GitMiner-L4-1.postman_collection.json` incluido en el proyecto  
-5️⃣ Haz clic en **"Import"**  
 
