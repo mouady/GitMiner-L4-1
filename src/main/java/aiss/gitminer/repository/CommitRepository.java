@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface CommitRepository extends JpaRepository<Commit, String> {
-    List<Commit> findByAuthorEmail(String email);
-
 }
