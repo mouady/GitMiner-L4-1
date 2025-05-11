@@ -61,10 +61,10 @@ public class ProjectGithubController {
     @Operation(
             summary = "Retrieve Project",
             description = "Get Project from a repository",
-            tags = {"Projects","GET"}
+            tags = {"ProjectsGithub","GET"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Project.class)
                     ,mediaType = "application/json")})
     })
     @GetMapping("/{owner}/{repo}")
@@ -97,6 +97,4 @@ public class ProjectGithubController {
 
         return projectRepository.save(res);
     }
-
-
 }

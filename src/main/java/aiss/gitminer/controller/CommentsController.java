@@ -37,7 +37,7 @@ public class CommentsController {
             tags = {"Comments","GET"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Comment.class)
                     ,mediaType = "application/json")}),
             @ApiResponse(responseCode = "404",content = {@Content(schema = @Schema()) })
     })
@@ -57,7 +57,7 @@ public class CommentsController {
             tags = {"Comments","GET"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Issue.class)
+            @ApiResponse(responseCode = "200",content = {@Content(schema = @Schema(implementation = Comment.class)
                     ,mediaType = "application/json")})
     })
     @GetMapping("/comments")
