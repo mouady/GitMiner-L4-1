@@ -1,23 +1,44 @@
 {
 	"info": {
-		"_postman_id": "1dbe2448-527d-45b0-83c4-3cf47519d512",
-		"name": "GitMiner Students",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "25434128"
+		"_postman_id": "74b11e93-1474-46ed-ac57-5f853bc5f046",
+		"name": "GitMiner-L4-1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43184787"
 	},
 	"item": [
 		{
 			"name": "GET BitbucketMiner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"commits es un array de 1 elemento\", function () {\r",
+							"    pm.expect(jsonData.commits).to.be.an('array').with.lengthOf(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"issues es un array de 1 elemento\", function () {\r",
+							"    pm.expect(jsonData.issues).to.be.an('array').with.lengthOf(1);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8081/bitbucket/gentlero/bitbucket-api?nCommits=5&nIssues=5&maxPages=2",
+					"raw": "http://localhost:8080/bitbucket/gentlero/bitbucket-api?nCommits=1&nIssues=1&maxPages=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8081",
+					"port": "8080",
 					"path": [
 						"bitbucket",
 						"gentlero",
@@ -26,15 +47,15 @@
 					"query": [
 						{
 							"key": "nCommits",
-							"value": "5"
+							"value": "1"
 						},
 						{
 							"key": "nIssues",
-							"value": "5"
+							"value": "1"
 						},
 						{
 							"key": "maxPages",
-							"value": "2"
+							"value": "1"
 						}
 					]
 				}
@@ -43,16 +64,36 @@
 		},
 		{
 			"name": "POST BitbucketMiner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"commits es un array de 1 elemento\", function () {\r",
+							"    pm.expect(jsonData.commits).to.be.an('array').with.lengthOf(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"issues es un array de 1 elemento\", function () {\r",
+							"    pm.expect(jsonData.issues).to.be.an('array').with.lengthOf(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8081/bitbucket/gentlero/bitbucket-api?nCommits=5&nIssues=5",
+					"raw": "http://localhost:8080/bitbucket/gentlero/bitbucket-api?nCommits=1&nIssues=1&maxPages=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8081",
+					"port": "8080",
 					"path": [
 						"bitbucket",
 						"gentlero",
@@ -61,11 +102,15 @@
 					"query": [
 						{
 							"key": "nCommits",
-							"value": "5"
+							"value": "1"
 						},
 						{
 							"key": "nIssues",
-							"value": "5"
+							"value": "1"
+						},
+						{
+							"key": "maxPages",
+							"value": "1"
 						}
 					]
 				}
@@ -77,7 +122,33 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8082/github/spring-projects/spring-framework"
+				"url": {
+					"raw": "http://localhost:8080/github/spring-projects/spring-framework?maxPages=1&sinceCommits=1&sinceIssues=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"github",
+						"spring-projects",
+						"spring-framework"
+					],
+					"query": [
+						{
+							"key": "maxPages",
+							"value": "1"
+						},
+						{
+							"key": "sinceCommits",
+							"value": "1"
+						},
+						{
+							"key": "sinceIssues",
+							"value": "1"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -87,12 +158,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/github/spring-projects/spring-framework?maxPages=1",
+					"raw": "http://localhost:8080/github/spring-projects/spring-framework?maxPages=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8082",
+					"port": "8080",
 					"path": [
 						"github",
 						"spring-projects",
@@ -142,7 +213,18 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/gitminer/projects"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"projects"
+					]
+				}
 			},
 			"response": []
 		},
@@ -174,7 +256,18 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/gitminer/projects"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"projects"
+					]
+				}
 			},
 			"response": []
 		},
@@ -200,7 +293,19 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/projects/15717393"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/projects/15717393",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"projects",
+						"15717393"
+					]
+				}
 			},
 			"response": []
 		},
@@ -227,7 +332,18 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/commits"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/commits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"commits"
+					]
+				}
 			},
 			"response": []
 		},
@@ -254,7 +370,19 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/commits/ee6e291274fcca03801261f1fd0684aa32c6d140"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/commits/ee6e291274fcca03801261f1fd0684aa32c6d140",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"commits",
+						"ee6e291274fcca03801261f1fd0684aa32c6d140"
+					]
+				}
 			},
 			"response": []
 		},
@@ -281,7 +409,18 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/issues"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/issues",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"issues"
+					]
+				}
 			},
 			"response": []
 		},
@@ -297,7 +436,7 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Body matches title\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"\\\"title\\\":\\\"New extension points\\\"\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"\\\"title\\\":\\\"Missing AOD operator\\\"\");\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -308,7 +447,19 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/issues/1556497126"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/issues/1554713335",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"issues",
+						"1554713335"
+					]
+				}
 			},
 			"response": []
 		},
@@ -327,14 +478,28 @@
 							"    pm.expect(pm.response.text()).to.include(\"\\\"body\\\":\\\"Thanks a lot for the quick reply\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/issues/1554713335/comments"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/issues/1554713335/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"issues",
+						"1554713335",
+						"comments"
+					]
+				}
 			},
 			"response": []
 		},
@@ -350,7 +515,7 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Body matches username\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"pastoref\\\"\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"\\\"username\\\":\\\"GerardSimon77\\\"\");\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -362,7 +527,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/gitminer/issues?authorId=5122337",
+					"raw": "http://localhost:8080/gitminer/issues?authorId=120655075",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -375,7 +540,7 @@
 					"query": [
 						{
 							"key": "authorId",
-							"value": "5122337"
+							"value": "120655075"
 						}
 					]
 				}
@@ -447,7 +612,18 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/comments"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"comments"
+					]
+				}
 			},
 			"response": []
 		},
@@ -466,14 +642,78 @@
 							"    pm.expect(pm.response.text()).to.include(\"\\\"id\\\":\\\"1398766669\\\"\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/gitminer/comments/1398766669"
+				"url": {
+					"raw": "http://localhost:8080/gitminer/comments/1398766669",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"comments",
+						"1398766669"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Project",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"15717393\",\r\n    \"name\": \"updated\",\r\n    \"web_url\": \"https://github.com/hcoles/pitest\",\r\n    \"commits\": [\r\n        {\r\n                \"id\": \"ee6e291274fcca03801261f1fd0684aa32c6d140\",\r\n                \"title\": \"updated tremendo\",\r\n                \"message\": \"\\n\\nNew extension point\",\r\n                \"author_name\": \"Henry Coles\",\r\n                \"author_email\": \"henry.coles@googlemail.com\",\r\n                \"authored_date\": \"2023-01-25T13:06:19Z\",\r\n                \"web_url\": \"https://github.com/hcoles/pitest/commit/ee6e291274fcca03801261f1fd0684aa32c6d140\"\r\n            }\r\n    ],\r\n    \"issues\": [\r\n        \r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gitminer/projects/15717393",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"projects",
+						"15717393"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Project",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/gitminer/projects/15717393",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gitminer",
+						"projects",
+						"15717393"
+					]
+				}
 			},
 			"response": []
 		}
