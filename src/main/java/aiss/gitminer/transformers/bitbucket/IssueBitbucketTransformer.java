@@ -1,9 +1,7 @@
 package aiss.gitminer.transformers.bitbucket;
 
 import aiss.gitminer.model.Issue;
-import aiss.gitminer.model.bitbucket.esclave.IssueBitbucket;
-import aiss.gitminer.transformers.bitbucket.users.ReporterBitbucketTransformer;
-import aiss.gitminer.transformers.bitbucket.users.UserBitbucketTransformer;
+import aiss.gitminer.model.bitbucket.IssueBitbucket;
 
 public class IssueBitbucketTransformer {
 

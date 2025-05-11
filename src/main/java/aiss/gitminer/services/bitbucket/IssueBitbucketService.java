@@ -1,6 +1,6 @@
 package aiss.gitminer.services.bitbucket;
 
-import aiss.gitminer.model.bitbucket.esclave.IssueBitbucket;
+import aiss.gitminer.model.bitbucket.IssueBitbucket;
 import aiss.gitminer.util.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;

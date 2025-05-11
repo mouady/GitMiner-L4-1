@@ -1,7 +1,7 @@
 package aiss.gitminer.services.github;
 
 import aiss.gitminer.model.github.IssueGithub;
-import aiss.gitminer.util.DateUtils;
+import aiss.gitminer.util.Utils;
 import aiss.gitminer.util.Environment;
 import aiss.gitminer.util.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class IssueGithubService {
         if(Checkers.isTokenGithub(Environment.GITHUB_TOKEN)) headers.set("Authorization", "Bearer " + Environment.GITHUB_TOKEN);
         HttpEntity<IssueGithub[]> entity = new HttpEntity<>(headers);
 
-        String issuesToRetrieve = sinceIssues != null ? DateUtils.getDateMinusDays(sinceIssues) : Environment.GITHUB_DEFAULT_SINCE_ISSUES;
+        String issuesToRetrieve = sinceIssues != null ? Utils.getDateMinusDays(sinceIssues) : Environment.GITHUB_DEFAULT_SINCE_ISSUES;
         int pagesToRetrieve = maxPages != null ? maxPages : Environment.GITHUB_DEFAULT_MAX_PAGES;
 
         String uri = Environment.GITHUB_BASEURI + owner + "/" + repo + "/issues" + "?since=" + issuesToRetrieve;

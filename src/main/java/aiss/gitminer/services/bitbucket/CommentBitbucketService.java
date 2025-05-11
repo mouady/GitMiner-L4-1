@@ -1,6 +1,6 @@
 package aiss.gitminer.services.bitbucket;
 
-import aiss.gitminer.model.bitbucket.esclave.comments.CommentValue;
+import aiss.gitminer.model.bitbucket.comments.CommentValueBitbucket;
 import aiss.gitminer.util.Environment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ public class CommentBitbucketService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<CommentValue> getAllCommentsFromIssue(String commentsUrl, Integer maxPages) {
-        List<CommentValue> allComments = new ArrayList<>();
+    public List<CommentValueBitbucket> getAllCommentsFromIssue(String commentsUrl, Integer maxPages) {
+        List<CommentValueBitbucket> allComments = new ArrayList<>();
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -45,13 +45,13 @@ public class CommentBitbucketService {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     private static class PaginatedComments {
-        private List<CommentValue> values;
+        private List<CommentValueBitbucket> values;
         private String next;
 
-        public List<CommentValue> getValues() {
+        public List<CommentValueBitbucket> getValues() {
             return values;
         }
-        public void setValues(List<CommentValue> values) {
+        public void setValues(List<CommentValueBitbucket> values) {
             this.values = values;
         }
         public String getNext() {

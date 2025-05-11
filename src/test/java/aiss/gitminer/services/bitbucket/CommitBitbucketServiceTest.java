@@ -1,11 +1,8 @@
 package aiss.gitminer.services.bitbucket;
 
 import aiss.gitminer.model.Commit;
-import aiss.gitminer.model.bitbucket.esclave.CommitBitbucket;
-import aiss.gitminer.model.github.CommitGithub;
-import aiss.gitminer.services.github.CommitGithubService;
+import aiss.gitminer.model.bitbucket.commit.CommitBitbucket;
 import aiss.gitminer.transformers.bitbucket.CommitBitbucketTransformer;
-import aiss.gitminer.transformers.github.CommitGithubTransformer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
